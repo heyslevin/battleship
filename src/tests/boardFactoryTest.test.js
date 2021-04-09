@@ -41,8 +41,38 @@ it("Returns true if space is Available", () => {
     },
   ];
 
-  const units = board.filterUnits(array);
-  const result = board.spaceChecker(units);
+  const result = board.spaceChecker(array);
 
   expect(result).toBe(true);
+});
+
+it("Returns false if space is Unavailable", () => {
+  const board = boardFactory();
+  const array = [
+    {
+      coordinates: [3, 2],
+      hasShip: true,
+      isHit: false,
+      name: "square32",
+      whichShip: false,
+    },
+    {
+      coordinates: [9, 2],
+      hasShip: false,
+      isHit: false,
+      name: "square92",
+      whichShip: false,
+    },
+    {
+      coordinates: [5, 1],
+      hasShip: false,
+      isHit: false,
+      name: "square51",
+      whichShip: false,
+    },
+  ];
+
+  const result = board.spaceChecker(array);
+
+  expect(result).toBe(false);
 });

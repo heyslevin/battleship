@@ -77,7 +77,7 @@ const boardFactory = () => {
   //Space checking. If all hasShip is false, then returns true (true space is available)
   const spaceChecker = function checkIfUnitHasShip(units) {
     return units.every((unit) => {
-      return !units.hasShip;
+      return !unit.hasShip;
     });
   };
 
