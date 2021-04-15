@@ -53,6 +53,7 @@ const boardFactory = () => {
   const filterUnits = function filterUnitsByInputCoordinate(coordinates) {
     let matches = [];
 
+    // Filters Units
     coordinates.forEach((coordinate) => {
       matches = matches.concat(
         units.filter((unit) => {
@@ -81,26 +82,76 @@ const boardFactory = () => {
     });
   };
 
+  // const updateShipInfo = function unitNowHasShip(units, filteredUnits) {
+  //   let updatedUnits = units.map((unit) => {
+  //     const exists = filteredUnits.find((filtered) => {
+  //       return (
+  //         filtered.coordinates[0] == unit.coordinates[0] &&
+  //         filtered.coordinates[1] == unit.coordinates[1]
+  //       );
+  //     });
+
+  //     if (exists) {
+  //       unit.hasShip = true;
+  //     }
+
+  //     return unit;
+  //   });
+
+  //   return updatedUnits;
+  // };
+
+  // Plug in functions for Updating ship Info
+  const hasShip = function updateHasShip(unit) {
+    unit.hasShip = true;
+  };
+
+  const updateShipInfo = function unitNowHasShip(
+    units,
+    filteredUnits,
+    callback
+  ) {
+    let updatedUnits = units.map((unit) => {
+      // Finds unit in unitArray, and updates it
+      const foundUnit = filteredUnits.find((filtered) => {
+        return filtered.name == unit.name;
+      });
+
+      if (foundUnit) {
+        callback(unit);
+      }
+
+      return unit;
+    });
+
+    return updatedUnits;
+  };
+
   const placeShip = function placeShipInUnit(coordinates) {
     //An array of coordinates is entered. Ex [[3,2],[3,3],[3,4]
 
     // Step 1: Find units with those coordinates
     let spaceAvailable = true;
 
-    let selectedUnits = unitFilter(coordinates);
+    let selectedUnits = filterUnits(coordinates);
 
-    //Step 2, If no space available, cheange spaceAvailable
+    //Step 2, If no space available, change spaceAvailable
 
     if (!spaceChecker(selectedUnits)) {
       spaceAvailable = false;
+      return;
     }
 
-    return spaceAvailable;
+    updateShipInfo(units, selectedUnits, hasShip);
+
+    // Next: Verify units are updating correctly via tests
+
+    return units;
   };
 
   // Data generator for board
 
-  return { units, placeShip, filterUnits, spaceChecker };
+  return { units, placeShip, filterUnits, spaceChecker, updateShipInfo };
 };
 
 export default boardFactory;
