@@ -49,8 +49,16 @@ const boardFactory = () => {
     return boardUnits;
   })();
 
-  // Filters Input Coordinates
-  const filterUnits = function filterUnitsByInputCoordinate(coordinates) {
+  // Helper functions
+  ////////////////////////////////////////////
+  ////////////////////////////////////////////
+  ////////////////////////////////////////////
+  ////////////////////////////////////////////
+  ////////////////////////////////////////////
+  ////////////////////////////////////////////
+
+  // Filters Input Coordinates, returns array with matches
+  const filterUnits = function filterMultipleUnits(coordinates) {
     let matches = [];
 
     // Filters Units
@@ -67,7 +75,6 @@ const boardFactory = () => {
           } else {
             return true;
           }
-          // return unit.coordinates == coordinate;
         })
       );
     });
@@ -75,36 +82,52 @@ const boardFactory = () => {
     return matches;
   };
 
-  //Space checking. If all hasShip is false, then returns true (true space is available)
+  // Filters Input Coordinates, returns array with matches
+  const filterUnit = function filterSingleUnit(coordinates) {
+    let matches = [];
+    //This is for when a single coordinate is entered
+    matches = units.filter((unit) => {
+      if (
+        unit.coordinates[0] !== coordinates[0] ||
+        unit.coordinates[1] !== coordinates[1]
+      ) {
+        return false;
+      } else {
+        return true;
+      }
+    });
+    return matches;
+  };
+
+  //Checks if space is available (aka does not have a ship). If all hasShip is false, then returns true (true, space is available)
   const spaceChecker = function checkIfUnitHasShip(units) {
     return units.every((unit) => {
       return !unit.hasShip;
     });
   };
 
-  // const updateShipInfo = function unitNowHasShip(units, filteredUnits) {
-  //   let updatedUnits = units.map((unit) => {
-  //     const exists = filteredUnits.find((filtered) => {
-  //       return (
-  //         filtered.coordinates[0] == unit.coordinates[0] &&
-  //         filtered.coordinates[1] == unit.coordinates[1]
-  //       );
-  //     });
-
-  //     if (exists) {
-  //       unit.hasShip = true;
-  //     }
-
-  //     return unit;
-  //   });
-
-  //   return updatedUnits;
-  // };
-
-  // Plug in functions for Updating ship Info
+  // Plug in functions
+  ////////////////////////////////////////////
+  ////////////////////////////////////////////
+  ////////////////////////////////////////////
+  ////////////////////////////////////////////
+  ////////////////////////////////////////////
+  ////////////////////////////////////////////
   const hasShip = function updateHasShip(unit) {
     unit.hasShip = true;
   };
+
+  const isHit = function updatedHitPoints(unit) {
+    unit.isHit = true;
+  };
+
+  // Private functions
+  ////////////////////////////////////////////
+  ////////////////////////////////////////////
+  ////////////////////////////////////////////
+  ////////////////////////////////////////////
+  ////////////////////////////////////////////
+  ////////////////////////////////////////////
 
   const updateShipInfo = function unitNowHasShip(
     units,
@@ -127,31 +150,65 @@ const boardFactory = () => {
     return updatedUnits;
   };
 
+  // Public functions
+  ////////////////////////////////////////////
+  ////////////////////////////////////////////
+  ////////////////////////////////////////////
+  ////////////////////////////////////////////
+  ////////////////////////////////////////////
+  ////////////////////////////////////////////
+
   const placeShip = function placeShipInUnit(coordinates) {
     //An array of coordinates is entered. Ex [[3,2],[3,3],[3,4]
 
     // Step 1: Find units with those coordinates
-    let spaceAvailable = true;
+    let selectedUnits;
 
-    let selectedUnits = filterUnits(coordinates);
+    // Check if coordinates is a single array or group of arrays
+    if (coordinates.length == 2 && coordinates[0][0] == undefined) {
+      selectedUnits = filterUnit(coordinates);
+    } else {
+      selectedUnits = filterUnits(coordinates);
+    }
 
-    //Step 2, If no space available, change spaceAvailable
-
+    //Step 2, If no space available, exit function
     if (!spaceChecker(selectedUnits)) {
-      spaceAvailable = false;
+      console.log("No Space");
       return;
     }
 
+    //Step 3, Update units with new info
     updateShipInfo(units, selectedUnits, hasShip);
 
-    // Next: Verify units are updating correctly via tests
+    return units;
+  };
+
+  const receiveAttack = function shipGetsHit(coordinate) {
+    // Step 1: Find units with those coordinates.
+    let selectedUnits = filterUnit(coordinate);
+
+    // Step 2: Check if space is available. If true, exit function (no ship)
+    if (spaceChecker(selectedUnits)) {
+      return 0;
+    }
+
+    //Step 3, Update unit
+    updateShipInfo(units, selectedUnits, isHit);
 
     return units;
   };
 
   // Data generator for board
 
-  return { units, placeShip, filterUnits, spaceChecker, updateShipInfo };
+  return {
+    units,
+    placeShip,
+    filterUnits,
+    filterUnit,
+    spaceChecker,
+    updateShipInfo,
+    receiveAttack,
+  };
 };
 
 export default boardFactory;
