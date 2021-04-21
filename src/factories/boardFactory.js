@@ -113,11 +113,12 @@ const boardFactory = () => {
   ////////////////////////////////////////////
   ////////////////////////////////////////////
   ////////////////////////////////////////////
-  const hasShip = function updateHasShip(unit) {
+  const hasShip = function updateHasShip(unit, ship) {
     unit.hasShip = true;
+    unit.whichShip = ship;
   };
 
-  const isHit = function updatedHitPoints(unit) {
+  const isHit = function updatedHitPoints(unit, ship) {
     unit.isHit = true;
   };
 
@@ -132,7 +133,8 @@ const boardFactory = () => {
   const updateShipInfo = function unitNowHasShip(
     units,
     filteredUnits,
-    callback
+    callback,
+    ship
   ) {
     let updatedUnits = units.map((unit) => {
       // Finds unit in unitArray, and updates it
@@ -158,7 +160,7 @@ const boardFactory = () => {
   ////////////////////////////////////////////
   ////////////////////////////////////////////
 
-  const placeShip = function placeShipInUnit(coordinates) {
+  const placeShip = function placeShipInUnit(coordinates, ship) {
     //An array of coordinates is entered. Ex [[3,2],[3,3],[3,4]
 
     // Step 1: Find units with those coordinates
@@ -178,7 +180,7 @@ const boardFactory = () => {
     }
 
     //Step 3, Update units with new info
-    updateShipInfo(units, selectedUnits, hasShip);
+    updateShipInfo(units, selectedUnits, hasShip, ship);
 
     return units;
   };
@@ -187,12 +189,12 @@ const boardFactory = () => {
     // Step 1: Find units with those coordinates.
     let selectedUnits = filterUnit(coordinate);
 
-    // Step 2: Check if space is available. If true, exit function (no ship)
+    // Step 2: if no ship on space, mark space as "space hit, but no ship"
     if (spaceChecker(selectedUnits)) {
-      return 0;
+      updateShipInfo(units, selectedUnits, isHit);
     }
 
-    //Step 3, Update unit
+    //Step 3, if there is a ship, hit, and check if sunk
     updateShipInfo(units, selectedUnits, isHit);
 
     return units;

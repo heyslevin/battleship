@@ -16,7 +16,10 @@ const shipFactory = (length, position) => {
     hit: hit,
     checkIfSunk: checkIfSunk,
     length: length,
+    whichShip: shipCounter,
   };
+
+  shipCounter++;
 
   // const currentHitPoints = () => hitPoints;
 
