@@ -1,12 +1,12 @@
-import boardFactory from "../factories/boardFactory";
+import BoardFactory from "../factories/BoardFactory";
 
 it("Has 100 units", () => {
-  const board = boardFactory();
+  const board = BoardFactory();
   expect(board.units.length).toBe(100);
 });
 
 it("placeShip filters all units with input coordinates", () => {
-  const board = boardFactory();
+  const board = BoardFactory();
   let result = board.filterUnits([
     [3, 2],
     [9, 2],
@@ -16,7 +16,7 @@ it("placeShip filters all units with input coordinates", () => {
 });
 
 it("Returns true if space is Available", () => {
-  const board = boardFactory();
+  const board = BoardFactory();
   const array = [
     {
       coordinates: [3, 2],
@@ -47,14 +47,14 @@ it("Returns true if space is Available", () => {
 });
 
 it("Returns false if space is Unavailable", () => {
-  const board = boardFactory();
+  const board = BoardFactory();
   const array = [
     {
       coordinates: [3, 2],
       hasShip: true,
-      isHit: false,
+      isHit: true,
       name: "square32",
-      whichShip: false,
+      whichShip: 0,
     },
     {
       coordinates: [9, 2],
@@ -78,7 +78,7 @@ it("Returns false if space is Unavailable", () => {
 });
 
 it("Update ship info Sets has ship to true", () => {
-  const board = boardFactory();
+  const board = BoardFactory();
   const hasShip = function updateHasShip(unit) {
     unit.hasShip = true;
   };
@@ -160,7 +160,7 @@ it("Update ship info Sets has ship to true", () => {
 });
 
 it("Returns false if space is Unavailable", () => {
-  const board = boardFactory();
+  const board = BoardFactory();
   const array = [
     {
       coordinates: [3, 2],
@@ -190,40 +190,139 @@ it("Returns false if space is Unavailable", () => {
   expect(result).toBe(false);
 });
 
-it("Test Place Ship", () => {
-  const board = boardFactory();
+it("Test Place Ship, Multiples", () => {
+  const board = BoardFactory();
 
-  const result = board.placeShip([
-    [3, 2],
-    [1, 2],
-    [9, 1],
-  ]);
+  const ship1 = {};
+  ship1.data = {
+    hit: expect.anything(),
+    hitPoints: expect.anything(),
+    sunk: expect.any(Boolean),
+    length: 3,
+    checkIfSunk: expect.anything(),
+    whichShip: 3,
+  };
 
-  const expected = [
-    {
-      coordinates: [3, 2],
-      hasShip: true,
-      isHit: false,
-      name: "square32",
-      whichShip: false,
-    },
-    {
-      coordinates: [1, 2],
-      hasShip: true,
-      isHit: false,
-      name: "square92",
-      whichShip: false,
-    },
-    {
-      coordinates: [9, 1],
-      hasShip: true,
-      isHit: false,
-      name: "square51",
-      whichShip: false,
-    },
-  ];
+  const result = board.placeShip(
+    [
+      [3, 2],
+      [1, 2],
+      [9, 1],
+    ],
+    ship1
+  );
 
   expect(result).toEqual(
     expect.arrayContaining([expect.objectContaining({ hasShip: true })])
   );
+});
+
+it("Test Place Ship, Single", () => {
+  const board = BoardFactory();
+  const ship1 = {};
+  ship1.data = {
+    hit: expect.anything(),
+    hitPoints: expect.anything(),
+    sunk: expect.any(Boolean),
+    length: 3,
+    checkIfSunk: expect.anything(),
+    whichShip: 3,
+  };
+
+  const result = board.placeShip([3, 2], ship1);
+
+  expect(result).toEqual(
+    expect.arrayContaining([expect.objectContaining({ hasShip: true })])
+  );
+});
+
+it("Test Ship has a Number ", () => {
+  const board = BoardFactory();
+  const ship1 = {};
+  ship1.data = {
+    hit: expect.anything(),
+    hitPoints: expect.anything(),
+    sunk: expect.any(Boolean),
+    length: 3,
+    checkIfSunk: expect.anything(),
+    whichShip: 3,
+  };
+
+  const result = board.placeShip(
+    [
+      [3, 2],
+      [1, 2],
+      [9, 1],
+    ],
+    ship1
+  );
+
+  expect(result).toEqual(
+    expect.arrayContaining([expect.objectContaining({ whichShip: 3 })])
+  );
+});
+
+it("Test Receive attack", () => {
+  const board = BoardFactory();
+  const ship1 = {};
+  ship1.data = {
+    hit: expect.anything(),
+    hitPoints: expect.anything(),
+    sunk: expect.any(Boolean),
+    length: 3,
+    checkIfSunk: expect.anything(),
+    whichShip: 3,
+  };
+
+  const hit = function shipTakesAHit() {
+    this.hitPoints--;
+    this.sunk = this.checkIfSunk();
+  };
+
+  const checkIfSunk = function shipHasNoMoreHitPoints() {
+    if (this.hitPoints == 0) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const allShips = [
+    {
+      data: {
+        hitPoints: 3,
+        sunk: false,
+        hit: hit,
+        checkIfSunk: checkIfSunk,
+        length: 3,
+        whichShip: 1,
+      },
+    },
+    {
+      data: {
+        hitPoints: 4,
+        sunk: false,
+        hit: hit,
+        checkIfSunk: checkIfSunk,
+        length: 4,
+        whichShip: 2,
+      },
+    },
+    {
+      data: {
+        hitPoints: 1,
+        sunk: false,
+        hit: hit,
+        checkIfSunk: checkIfSunk,
+        length: 1,
+        whichShip: 3,
+      },
+    },
+  ];
+
+  board.placeShip([3, 2], ship1);
+
+  const result = board.receiveAttack([3, 2], allShips);
+
+  expect(result).toEqual(expect.objectContaining({ hitPoints: 0 }));
 });

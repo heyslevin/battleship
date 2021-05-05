@@ -1,4 +1,4 @@
-const boardFactory = () => {
+const BoardFactory = () => {
   //Constructor
 
   const units = (function (generateUnits) {
@@ -115,7 +115,7 @@ const boardFactory = () => {
   ////////////////////////////////////////////
   const hasShip = function updateHasShip(unit, ship) {
     unit.hasShip = true;
-    unit.whichShip = ship;
+    unit.whichShip = ship.data.whichShip;
   };
 
   const isHit = function updatedHitPoints(unit, ship) {
@@ -143,7 +143,7 @@ const boardFactory = () => {
       });
 
       if (foundUnit) {
-        callback(unit);
+        callback(unit, ship);
       }
 
       return unit;
@@ -185,19 +185,37 @@ const boardFactory = () => {
     return units;
   };
 
-  const receiveAttack = function shipGetsHit(coordinate) {
+  const receiveAttack = function shipGetsHit(coordinate, allShips) {
     // Step 1: Find units with those coordinates.
-    let selectedUnits = filterUnit(coordinate);
+    let selectedUnit = filterUnit(coordinate);
 
     // Step 2: if no ship on space, mark space as "space hit, but no ship"
-    if (spaceChecker(selectedUnits)) {
-      updateShipInfo(units, selectedUnits, isHit);
+    if (spaceChecker(selectedUnit)) {
+      updateShipInfo(units, selectedUnit, isHit);
     }
 
     //Step 3, if there is a ship, hit, and check if sunk
-    updateShipInfo(units, selectedUnits, isHit);
+    updateShipInfo(units, selectedUnit, isHit);
 
-    return units;
+    //Step 4, find ship in ShipList, deduct hitpoints and check if sunk
+
+    let whichShip = selectedUnit[0].whichShip;
+
+    let thisShip = allShips.filter((ship) => {
+      return ship.data.whichShip == whichShip;
+    })[0];
+
+    // Takes a hit
+    thisShip.data.hit();
+
+    //Next, check is thisShip is sunk
+    if (thisShip.data.sunk) {
+      console.log("ship is down baby");
+    } else {
+      console.log("still kicking baby");
+    }
+
+    return thisShip.data;
   };
 
   // Data generator for board
@@ -213,4 +231,4 @@ const boardFactory = () => {
   };
 };
 
-export default boardFactory;
+export default BoardFactory;

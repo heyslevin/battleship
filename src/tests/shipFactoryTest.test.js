@@ -1,4 +1,4 @@
-import shipFactory from "../factories/shipFactory";
+import ShipFactory from "../factories/ShipFactory";
 
 it("creates object correctly", () => {
   const expected = {
@@ -8,34 +8,36 @@ it("creates object correctly", () => {
       sunk: expect.any(Boolean),
       length: 1,
       checkIfSunk: expect.anything(),
+      whichShip: expect.anything(),
+      resetShips: expect.anything(),
     },
   };
 
-  const result = shipFactory(1);
+  const result = ShipFactory(1);
 
   expect(result).toStrictEqual(expected);
 });
 
 it("creates object length of 3", () => {
-  let ship = shipFactory(1);
+  let ship = ShipFactory(1);
 
   expect(ship.data.length).toBe(1);
 });
 
 it("to have hitpoints equal to length", () => {
-  let ship = shipFactory(3);
+  let ship = ShipFactory(3);
 
   expect(ship.data.length).toBe(3);
 });
 
 it("on hit, ship deducts 1 hitpoint", () => {
-  let ship = shipFactory(3, null);
+  let ship = ShipFactory(3, null);
   ship.data.hit();
   expect(ship.data.hitPoints).toBe(2);
 });
 
 it("on no hitpoints, ship sinks", () => {
-  let ship = shipFactory(3, []);
+  let ship = ShipFactory(3, []);
   ship.data.hit();
   ship.data.hit();
   ship.data.hit();
@@ -43,8 +45,28 @@ it("on no hitpoints, ship sinks", () => {
 });
 
 it("check properties on ship", () => {
-  let ship = shipFactory(3, []);
+  let ship = ShipFactory(3, []);
   ship.data.hit();
 
   expect(ship.data.length).toBe(3);
+});
+
+it("counts up on each ship created", () => {
+  let ship = ShipFactory(1);
+  ship.data.resetShips();
+  let result = ShipFactory(2);
+
+  const expected = {
+    data: {
+      hit: expect.anything(),
+      hitPoints: expect.anything(),
+      sunk: expect.any(Boolean),
+      length: 2,
+      checkIfSunk: expect.anything(),
+      whichShip: 1,
+      resetShips: expect.anything(),
+    },
+  };
+
+  expect(result).toStrictEqual(expected);
 });
