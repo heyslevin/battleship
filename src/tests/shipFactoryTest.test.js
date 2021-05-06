@@ -10,10 +10,11 @@ it("creates object correctly", () => {
       checkIfSunk: expect.anything(),
       whichShip: expect.anything(),
       resetShips: expect.anything(),
+      owner: expect.anything(),
     },
   };
 
-  const result = ShipFactory(1);
+  const result = ShipFactory(1, "player1");
 
   expect(result).toStrictEqual(expected);
 });
@@ -52,9 +53,9 @@ it("check properties on ship", () => {
 });
 
 it("counts up on each ship created", () => {
-  let ship = ShipFactory(1);
+  let ship = ShipFactory(1, "player1");
   ship.data.resetShips();
-  let result = ShipFactory(2);
+  let result = ShipFactory(2, "player2");
 
   const expected = {
     data: {
@@ -65,6 +66,7 @@ it("counts up on each ship created", () => {
       checkIfSunk: expect.anything(),
       whichShip: 1,
       resetShips: expect.anything(),
+      owner: "player2",
     },
   };
 

@@ -1,11 +1,12 @@
 const Player = () => {
-  const aiPlay = function aiActionWhenPlaying() {
-    const playedCoordinates = [];
+  const playedCoordinates = [];
+  const myShips = [];
 
+  const aiPlay = function aiActionWhenPlaying() {
     /*
         Process:
         
-        # Player creates 5 ships
+        # Player is assigned 5 ships
         # Player places ships
         # Player has a score, of Sunken Ships
         # Player picks coordinate to attack
@@ -24,7 +25,7 @@ const Player = () => {
         */
   };
 
-  return true;
+  return { aiPlay };
 };
 
 export default Player;

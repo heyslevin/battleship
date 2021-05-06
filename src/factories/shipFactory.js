@@ -9,7 +9,7 @@ const resetShips = () => {
   ship = 0;
 };
 
-const ShipFactory = (length) => {
+const ShipFactory = (length, playerName) => {
   const hit = function shipTakesAHit() {
     data.hitPoints--;
     data.sunk = checkIfSunk();
@@ -31,6 +31,7 @@ const ShipFactory = (length) => {
     length: length,
     whichShip: shipNumber,
     resetShips: resetShips,
+    owner: playerName,
   };
 
   // const currentHitPoints = () => hitPoints;
