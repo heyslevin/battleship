@@ -21,7 +21,9 @@ const ShipFactory = (length, playerName) => {
     }
   };
 
-  let shipNumber = getShipNumber();
+  const setOrientation = function zeroIsVerticalOneIsHorizontal() {
+    return Math.floor(Math.random() < 0.5);
+  };
 
   const data = {
     hitPoints: length,
@@ -29,7 +31,8 @@ const ShipFactory = (length, playerName) => {
     hit: hit,
     checkIfSunk: checkIfSunk,
     length: length,
-    whichShip: shipNumber,
+    orientation: setOrientation(),
+    whichShip: getShipNumber(),
     resetShips: resetShips,
     owner: playerName,
   };
@@ -39,4 +42,4 @@ const ShipFactory = (length, playerName) => {
   return { data };
 };
 
-export default ShipFactory;
+export { ShipFactory, resetShips };

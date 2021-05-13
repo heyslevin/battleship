@@ -9,35 +9,32 @@ const Player = () => {
     myShips.push(ship);
   };
 
-  const generateNumber = () => {
+  const generateCoordinate = () => {
     return Math.floor(Math.random() * 10);
-  };
-
-  const generateBinary = () => {
-    return Math.floor(Math.random() < 0.5);
   };
 
   const playerPlaceShip = (ship, board) => {
     let allShipUnitCoordinates = [];
     // Generate coordinates, select orientation
-    let x = generateNumber();
-    let y = generateNumber();
+    let x = generateCoordinate();
+    let y = generateCoordinate();
     let length = ship.length;
     // Random orientation. 0 is vertical, 1 is horizontal
-    let setOrientation = generateBinary();
     // Generate allShipUnits based on orientation
     // Loop ship.length amount of times
     // Check if coordinates are legal. If false, console log and return
     const legalSpaceChecker = function checkIfSpaceExistsForShip() {
-      let i = setOrientation === 0 ? y : x;
-      //All units must be > 0, < 9
-      for (i; i <= i + ship.length; i++) {
-        if (i < 0 || i > 9) {
-          console.log("illegal move");
-        } else {
-          console.log("good move");
-        }
-      }
+      // let i = setOrientation === 0 ? y : x;
+      // let max = i + ship.length;
+      // //All units must be > 0, < 9
+      // if (max <= 9 || )
+      // for (i; i <= i + ship.length; i++) {
+      //   if (i < 0 || i > 9) {
+      //     console.log("illegal move");
+      //   } else {
+      //     console.log("good move")
+      //   }
+      // }
     };
 
     // Check origin coordinate, and all next coordinates

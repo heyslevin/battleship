@@ -1,4 +1,8 @@
-import ShipFactory from "../factories/ShipFactory";
+import { ShipFactory, resetShips } from "../factories/ShipFactory";
+
+afterEach(() => {
+  resetShips();
+});
 
 it("creates object correctly", () => {
   const expected = {
@@ -10,6 +14,7 @@ it("creates object correctly", () => {
       checkIfSunk: expect.anything(),
       whichShip: expect.anything(),
       resetShips: expect.anything(),
+      orientation: expect.anything(),
       owner: expect.anything(),
     },
   };
@@ -54,7 +59,6 @@ it("check properties on ship", () => {
 
 it("counts up on each ship created", () => {
   let ship = ShipFactory(1, "player1");
-  ship.data.resetShips();
   let result = ShipFactory(2, "player2");
 
   const expected = {
@@ -64,7 +68,8 @@ it("counts up on each ship created", () => {
       sunk: expect.any(Boolean),
       length: 2,
       checkIfSunk: expect.anything(),
-      whichShip: 1,
+      orientation: expect.anything(),
+      whichShip: 2,
       resetShips: expect.anything(),
       owner: "player2",
     },
