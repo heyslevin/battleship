@@ -9,38 +9,32 @@ const Player = () => {
     myShips.push(ship);
   };
 
-  const generateCoordinate = () => {
+  const generateNumber = () => {
     return Math.floor(Math.random() * 10);
   };
 
-  const playerPlaceShip = (ship, board) => {
-    let allShipUnitCoordinates = [];
-    // Generate coordinates, select orientation
-    let x = generateCoordinate();
-    let y = generateCoordinate();
-    let length = ship.length;
-    // Random orientation. 0 is vertical, 1 is horizontal
-    // Generate allShipUnits based on orientation
-    // Loop ship.length amount of times
-    // Check if coordinates are legal. If false, console log and return
-    const legalSpaceChecker = function checkIfSpaceExistsForShip() {
-      // let i = setOrientation === 0 ? y : x;
-      // let max = i + ship.length;
-      // //All units must be > 0, < 9
-      // if (max <= 9 || )
-      // for (i; i <= i + ship.length; i++) {
-      //   if (i < 0 || i > 9) {
-      //     console.log("illegal move");
-      //   } else {
-      //     console.log("good move")
-      //   }
-      // }
-    };
+  const generateLimitedNumber = (shipLength) => {
+    return Math.floor(Math.random() * (10 - shipLength + 1));
+  };
 
-    // Check origin coordinate, and all next coordinates
-    for (let i; i <= ship.length; i++) {}
+  const generateFreeCoordinate = (ship, direction) => {
+    // If ship.orientation = direction, do limited random number. Else, do free random number.
+    if (ship.data.orientation === direction) {
+      return generateLimitedNumber(ship.data.length);
+    } else {
+      return generateNumber();
+    }
+  };
 
-    board.placeShip([x, y], ship);
+  const playerPlaceShip = function picksCoordinatesForShip(ship) {
+    //Check Orientation and ShipLength
+    //Generate a Valid Origin Coordinate
+    //Valid Origin. If its orientation = i + ship.length <= 9
+    //If not orientation i >= 0 && i <= 9
+    let orienation = ship.orienation;
+
+    let x = generateCoordinate(ship, x);
+    let y = generateCoordinate(ship, y);
   };
 
   const aiPlay = function aiActionWhenPlaying() {
