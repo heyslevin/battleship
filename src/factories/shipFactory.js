@@ -21,8 +21,15 @@ const ShipFactory = (length, playerName) => {
     }
   };
 
-  const setOrientation = function zeroIsVerticalOneIsHorizontal() {
-    return Math.floor(Math.random() < 0.5);
+  const setOrientation = function zeroIsHorizontalOneIsVertical() {
+    let orientation = Math.floor(Math.random() < 0.5);
+    if (orientation == 0) {
+      return "x";
+    } else if (orientation == 1) {
+      return "y";
+    } else {
+      return "error";
+    }
   };
 
   const data = {

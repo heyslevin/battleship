@@ -17,7 +17,10 @@ const Player = () => {
     return Math.floor(Math.random() * (10 - shipLength + 1));
   };
 
-  const generateFreeCoordinate = (ship, direction) => {
+  const generateCoordinates = function generateCoordinatesToPlaceShip(
+    ship,
+    direction
+  ) {
     // If ship.orientation = direction, do limited random number. Else, do free random number.
     if (ship.data.orientation === direction) {
       return generateLimitedNumber(ship.data.length);
@@ -26,15 +29,14 @@ const Player = () => {
     }
   };
 
-  const playerPlaceShip = function picksCoordinatesForShip(ship) {
+  const playerPickCoordinates = function picksCoordinatesForShip(ship) {
     //Check Orientation and ShipLength
-    //Generate a Valid Origin Coordinate
-    //Valid Origin. If its orientation = i + ship.length <= 9
-    //If not orientation i >= 0 && i <= 9
-    let orienation = ship.orienation;
+    let orientation = ship.orientation;
 
-    let x = generateCoordinate(ship, x);
-    let y = generateCoordinate(ship, y);
+    let x = generateCoordinates(ship, "x");
+    let y = generateCoordinates(ship, "y");
+
+    return [x, y];
   };
 
   const aiPlay = function aiActionWhenPlaying() {
@@ -57,7 +59,7 @@ const Player = () => {
         */
   };
 
-  return { aiPlay, playerPlaceShip };
+  return { aiPlay, playerPickCoordinates };
 };
 
 export default Player;
