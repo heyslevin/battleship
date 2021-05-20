@@ -326,3 +326,14 @@ it("Test Receive attack", () => {
 
   expect(result).toEqual(expect.objectContaining({ hitPoints: 0 }));
 });
+
+it("Board creates players correctly", () => {
+  const board = BoardFactory();
+  let boardPlayers = board.addPlayers();
+  let expected = {
+    playerAi: expect.anything(),
+    playerHuman: expect.anything(),
+  };
+
+  expect(boardPlayers).toStrictEqual(expected);
+});

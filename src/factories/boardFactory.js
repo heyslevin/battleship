@@ -1,3 +1,5 @@
+import PlayerFactory from "./playerFactory";
+
 const BoardFactory = () => {
   //Constructor
 
@@ -160,6 +162,18 @@ const BoardFactory = () => {
   ////////////////////////////////////////////
   ////////////////////////////////////////////
 
+  //Player functions
+
+  const playerHuman = {};
+  const playerAi = {};
+
+  const addPlayers = function createsPlayers() {
+    const playerHuman = PlayerFactory("human");
+    const playerAi = PlayerFactory("computer");
+
+    return { playerHuman, playerAi };
+  };
+
   const placeShip = function placeShipInUnit(coordinates, ship) {
     //An array of coordinates is entered. Ex [[3,2],[3,3],[3,4]
 
@@ -227,6 +241,7 @@ const BoardFactory = () => {
     spaceChecker,
     updateShipInfo,
     receiveAttack,
+    addPlayers,
   };
 };
 

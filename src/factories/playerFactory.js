@@ -1,8 +1,18 @@
 import ShipFactory from "./shipFactory";
 
-const PlayerFactory = () => {
+const PlayerFactory = (aiOrHuman) => {
   const playedCoordinates = [];
   const myShips = [];
+  let ai;
+
+  // AI Checker when creating player
+  if (aiOrHuman === "human") {
+    ai = false;
+  } else if (aiOrHuman === "computer") {
+    ai = true;
+  } else {
+    console.log("error with ai");
+  }
 
   const addShip = function createsAShipWithFactory(length, name) {
     const ship = ShipFactory(length, name);
