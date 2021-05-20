@@ -1,12 +1,12 @@
-import Player from "../factories/playerFactory";
+import PlayerFactory from "../factories/playerFactory";
 
 it("Returns true", () => {
-  const newPlayer = Player();
+  const newPlayer = PlayerFactory();
   expect(newPlayer).toMatchObject(expect.anything());
 });
 
 it("Places ship correctly", () => {
-  const newPlayer = Player();
+  const newPlayer = PlayerFactory();
   let expected = "placed";
   let mockShip = {};
   mockShip.data = {

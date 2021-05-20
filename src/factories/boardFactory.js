@@ -175,8 +175,7 @@ const BoardFactory = () => {
 
     //Step 2, If no space available, exit function
     if (!spaceChecker(selectedUnits)) {
-      console.log("No Space");
-      return;
+      return false;
     }
 
     //Step 3, Update units with new info

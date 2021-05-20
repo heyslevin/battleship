@@ -66,3 +66,20 @@ Create a ship
         unit.coordinate = [i,j]
         }
         }
+
+GAMELOOP
+
+\*\* Consider where board creation is done
+
+1. Creates Board
+2. Creates 2 Players
+3. Create Ships Player.addShips x 5
+4. Place Ships
+   LOOP
+   1. Create function for generating a starter coordinate
+      starterPlay = board.spaceChecker(player.pickCoordinate)
+      // Next = loop runs function until true.
+      May be while (starterPlay != false) or something
+   1. If (starterPlay == false)
+   1. board.spaceChecker(coordinate)
+   1. If false,

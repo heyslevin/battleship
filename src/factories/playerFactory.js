@@ -1,11 +1,11 @@
-import shipFactory from "./shipFactory";
+import ShipFactory from "./shipFactory";
 
-const Player = () => {
+const PlayerFactory = () => {
   const playedCoordinates = [];
   const myShips = [];
 
   const addShip = function createsAShipWithFactory(length, name) {
-    const ship = shipFactory(length, name);
+    const ship = ShipFactory(length, name);
     myShips.push(ship);
   };
 
@@ -62,4 +62,4 @@ const Player = () => {
   return { aiPlay, playerPickCoordinates };
 };
 
-export default Player;
+export default PlayerFactory;
