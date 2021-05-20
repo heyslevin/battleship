@@ -164,9 +164,6 @@ const BoardFactory = () => {
 
   //Player functions
 
-  const playerHuman = {};
-  const playerAi = {};
-
   const addPlayers = function createsPlayers() {
     const playerHuman = PlayerFactory("human");
     const playerAi = PlayerFactory("computer");
