@@ -1,4 +1,4 @@
-import ShipFactory from "./shipFactory";
+import { ShipFactory } from "./shipFactory";
 
 const PlayerFactory = (aiOrHuman) => {
   const playedCoordinates = [];
@@ -14,8 +14,8 @@ const PlayerFactory = (aiOrHuman) => {
     console.log("error with ai");
   }
 
-  const addShip = function createsAShipWithFactory(length, name) {
-    const ship = ShipFactory(length, name);
+  const addShip = function createsAShipWithFactory(length) {
+    const ship = ShipFactory(length);
     myShips.push(ship);
   };
 
@@ -39,17 +39,31 @@ const PlayerFactory = (aiOrHuman) => {
     }
   };
 
-  const playerPickCoordinates = function picksCoordinatesForShip(ship) {
-    //Check Orientation and ShipLength
-    let orientation = ship.orientation;
+  const playerPickCoordinates = function picksCoordinatesForShip(
+    ship,
+    filterUnit,
+    units
+  ) {
+    //Check Orientation
+    let orientation = ship.data.orientation;
 
     let x = generateCoordinates(ship, "x");
     let y = generateCoordinates(ship, "y");
+    // NEXT: check if all coordinates available
+    // Loop, while true, continue
+    // Filter units with coordinate to find unit
+    // Check if unit.hasShip is true
+    // Loop i = ship.length
+    // Generate next coordinate based on orientation
+    // Find unit with that coordinate (Filter unit), check if unit.hasShip is true
+    // If unit.hasShip is false, restart whole thing.
+
+    let unit = filterUnit(x, y);
 
     return [x, y];
   };
 
-  const aiPlay = function aiActionWhenPlaying() {
+  const aiPlay = function aiActionWhenPlaying(ship) {
     /*
         Process:
         
@@ -67,9 +81,12 @@ const PlayerFactory = (aiOrHuman) => {
 
 
         */
+    // - Computer selects random spaces
+    // - Generate 2 random numbers, each between 0 and 9
+    // - If coordinate has been already hit, try another until not hit
   };
 
-  return { aiPlay, playerPickCoordinates };
+  return { aiPlay, playerPickCoordinates, addShip, myShips };
 };
 
 export default PlayerFactory;

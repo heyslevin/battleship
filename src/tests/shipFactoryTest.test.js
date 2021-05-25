@@ -15,11 +15,11 @@ it("creates object correctly", () => {
       whichShip: expect.anything(),
       resetShips: expect.anything(),
       orientation: expect.anything(),
-      owner: expect.anything(),
+      // owner: expect.anything(),
     },
   };
 
-  const result = ShipFactory(1, "player1");
+  const result = ShipFactory(1);
 
   expect(result).toStrictEqual(expected);
 });
@@ -71,7 +71,7 @@ it("counts up on each ship created", () => {
       orientation: expect.anything(),
       whichShip: 2,
       resetShips: expect.anything(),
-      owner: "player2",
+      // owner: "player2",
     },
   };
 

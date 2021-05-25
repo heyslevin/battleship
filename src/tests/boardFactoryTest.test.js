@@ -337,3 +337,13 @@ it("Board creates players correctly", () => {
 
   expect(boardPlayers).toStrictEqual(expected);
 });
+
+it("Players in Board can create ships", () => {
+  const board = BoardFactory();
+  let boardPlayers = board.addPlayers();
+  boardPlayers.playerHuman.addShip(3);
+
+  expect(boardPlayers.playerHuman.myShips).toStrictEqual(
+    expect.arrayContaining([{ data: expect.anything() }])
+  );
+});

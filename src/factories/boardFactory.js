@@ -220,9 +220,9 @@ const BoardFactory = () => {
 
     //Next, check is thisShip is sunk
     if (thisShip.data.sunk) {
-      console.log("ship is down baby");
+      //ship down
     } else {
-      console.log("still kicking baby");
+      //ship not down
     }
 
     return thisShip.data;
