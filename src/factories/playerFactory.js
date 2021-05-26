@@ -27,7 +27,7 @@ const PlayerFactory = (aiOrHuman) => {
     return Math.floor(Math.random() * (10 - shipLength + 1));
   };
 
-  const generateCoordinates = function generateCoordinatesToPlaceShip(
+  const generateCoordinates = function generateSingleCoordinatesToPlaceShip(
     ship,
     direction
   ) {
@@ -44,11 +44,21 @@ const PlayerFactory = (aiOrHuman) => {
     filterUnit,
     units
   ) {
-    //Check Orientation
-    let orientation = ship.data.orientation;
+    let playerCoordinates = [];
 
     let x = generateCoordinates(ship, "x");
     let y = generateCoordinates(ship, "y");
+
+    console.log([x, y]);
+
+    //Generate rest of coordinates
+    for (let i = x; i <= ship.data.length; i++) {
+      playerCoordinates.push([i, y]);
+      console.log(i);
+    }
+
+    return playerCoordinates;
+
     // NEXT: check if all coordinates available
     // Loop, while true, continue
     // Filter units with coordinate to find unit
@@ -57,10 +67,6 @@ const PlayerFactory = (aiOrHuman) => {
     // Generate next coordinate based on orientation
     // Find unit with that coordinate (Filter unit), check if unit.hasShip is true
     // If unit.hasShip is false, restart whole thing.
-
-    let unit = filterUnit(x, y);
-
-    return [x, y];
   };
 
   const aiPlay = function aiActionWhenPlaying(ship) {

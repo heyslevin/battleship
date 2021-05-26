@@ -5,6 +5,21 @@ it("Returns true", () => {
   expect(newPlayer).toMatchObject(expect.anything());
 });
 
+it.only("Generates Coordinates correctly", () => {
+  const newPlayer = PlayerFactory("human");
+  let mockShip = {};
+  mockShip.data = {
+    hitPoints: 3,
+    sunk: false,
+    length: 3,
+    orientation: "x",
+    whichShip: 1,
+  };
+  let result = newPlayer.playerPickCoordinates(mockShip);
+
+  expect(result).toEqual([3]);
+});
+
 it("Places ship correctly", () => {
   const newPlayer = PlayerFactory("human");
   let expected = "placed";
