@@ -39,22 +39,15 @@ const PlayerFactory = (aiOrHuman) => {
     }
   };
 
-  const playerPickCoordinates = function picksCoordinatesForShip(
-    ship,
-    filterUnit,
-    units
-  ) {
+  const playerPickShipCoordinates = function picksCoordinatesForShip(ship) {
     let playerCoordinates = [];
 
     let x = generateCoordinates(ship, "x");
     let y = generateCoordinates(ship, "y");
 
-    console.log([x, y]);
-
-    //Generate rest of coordinates
+    //Generate rest of coordinates, push to playerCoordinates
     for (let i = x; i < ship.data.length + x; i++) {
       playerCoordinates.push([i, y]);
-      console.log(i);
     }
 
     return playerCoordinates;
@@ -69,17 +62,17 @@ const PlayerFactory = (aiOrHuman) => {
     // If unit.hasShip is false, restart whole thing.
   };
 
-  const aiPlay = function aiActionWhenPlaying(ship) {
+  const aiPlay = function aiActionWhenPlaying() {
+    let x = generateNumber();
+    let y = generateNumber();
+
+    return [x, y];
+    //  - BEGINNER AI
+    //         - Computer selects random spaces
+    //         - Generate 2 random numbers, each between 0 and 9
+    //         - If coordinate has been already hit, try another until not hit (tested in Gameloop)
     /*
-        Process:
-        
-        # Player picks coordinate to attack
-        
-        # AI
-          - BEGINNER AI
-            - Computer selects random spaces
-            - Generate 2 random numbers, each between 0 and 9
-            - If coordinate has been already hit, try another until not hit
+    
           - ADVANCED AI
             - If there is a hit, computer tries adjacent tiles
             - If there is a second hit, and a "direction" is defined, computer continues line on one side.
@@ -92,7 +85,7 @@ const PlayerFactory = (aiOrHuman) => {
     // - If coordinate has been already hit, try another until not hit
   };
 
-  return { aiPlay, playerPickCoordinates, addShip, myShips };
+  return { aiPlay, playerPickShipCoordinates, addShip, myShips };
 };
 
 export default PlayerFactory;
