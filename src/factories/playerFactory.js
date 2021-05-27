@@ -52,7 +52,7 @@ const PlayerFactory = (aiOrHuman) => {
     console.log([x, y]);
 
     //Generate rest of coordinates
-    for (let i = x; i <= ship.data.length; i++) {
+    for (let i = x; i < ship.data.length + x; i++) {
       playerCoordinates.push([i, y]);
       console.log(i);
     }

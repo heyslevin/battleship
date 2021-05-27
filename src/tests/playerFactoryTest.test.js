@@ -17,7 +17,7 @@ it.only("Generates Coordinates correctly", () => {
   };
   let result = newPlayer.playerPickCoordinates(mockShip);
 
-  expect(result).toEqual([3]);
+  expect(result.length).toBe(3);
 });
 
 it("Places ship correctly", () => {
