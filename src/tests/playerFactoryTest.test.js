@@ -15,9 +15,24 @@ it.only("Generates Coordinates correctly", () => {
     orientation: "x",
     whichShip: 1,
   };
-  let result = newPlayer.playerPickCoordinates(mockShip);
+  let result = newPlayer.playerPickShipCoordinates(mockShip);
 
   expect(result.length).toBe(3);
+});
+
+it.only("AI Generates Coordinates correctly", () => {
+  const computerPlayer = PlayerFactory("computer");
+  let mockShip = {};
+  mockShip.data = {
+    hitPoints: 3,
+    sunk: false,
+    length: 3,
+    orientation: "x",
+    whichShip: 1,
+  };
+  let result = computerPlayer.aiPlay();
+
+  expect(result.length).toBe(2);
 });
 
 it("Places ship correctly", () => {
@@ -31,7 +46,7 @@ it("Places ship correctly", () => {
     orientation: "x",
     whichShip: 1,
   };
-  let result = newPlayer.playerPickCoordinates(mockShip);
+  let result = newPlayer.playerPickShipCoordinates(mockShip);
 
   expect(result).toEqual(expect.any(Array));
 });
