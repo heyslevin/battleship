@@ -13,7 +13,7 @@ function App() {
 
   return (
     <ChakraProvider>
-      <Container maxW="1200" py="5" bg="blue.200">
+      <Container maxW="100%" height="100vh" py="5" bg="gray.100">
         <Game>
           <Scoreboard />
           <Board />

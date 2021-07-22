@@ -11,11 +11,15 @@ const Board = (props) => {
 
   return (
     <HStack justifyContent="center">
-      <Box h="300px" w="300px" bg="gray.500">
-        <Wrap spacing="0">{grid}</Wrap>
+      <Box w="510px" py="5px" px="5px" borderRadius="3px" bg="blue.500">
+        <Wrap justify="center" spacing="0">
+          {grid}
+        </Wrap>
       </Box>
-      <Box h="300px" w="300px" bg="gray.500">
-        Here be thy board
+      <Box w="510px" py="5px" px="5px" borderRadius="3px" bg="red.500">
+        <Wrap justify="center" spacing="0">
+          {grid}
+        </Wrap>
       </Box>
     </HStack>
   );

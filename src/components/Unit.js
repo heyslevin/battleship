@@ -4,9 +4,15 @@ import React from "react";
 const Unit = ({ index }) => {
   return (
     <WrapItem key={index}>
-      <Center w="30px" h="30px" bg="red.100">
-        1
-      </Center>
+      <Center
+        w="50px"
+        h="50px"
+        bg="white"
+        _hover={{ background: "gray.300" }}
+        border="1px"
+        borderColor="gray.500"
+        borderRadius="5px"
+      ></Center>
     </WrapItem>
   );
 };
