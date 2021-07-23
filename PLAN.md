@@ -85,3 +85,28 @@ Create a ship
 
 
         */
+
+## React Planning
+
+0. Structure
+
+   - Game (Who's turn, Player Ships)
+     - Scoreboard (Game Over)
+     - Board
+       - Units (Player pick, Ship status, Unit status)
+
+1. Pieces of data
+   - Game status
+     - Who's turn \*\*
+     - Game over (all player ships sunk) \*\*
+     - Who won
+   - Players
+     - Player ships \*\*
+     - Player / AI pick \*\*
+   - Unit data:
+     - Has ship
+     - Status (hit/miss) \*\*
+   - Ships:
+     - Position
+     - Length
+     - Status (sunk/unsunk) \*\*
