@@ -7,7 +7,7 @@ import Unit from "./Unit";
 //note
 
 const Board = (props) => {
-  let grid = [...Array(100)].map((e, index) => <Unit index={index} />);
+  let grid = [...Array(100)].map((e, index) => <Unit key={index} />);
 
   return (
     <HStack justifyContent="center">

@@ -1,9 +1,9 @@
 import { Center, WrapItem } from "@chakra-ui/react";
 import React from "react";
 
-const Unit = ({ index }) => {
+const Unit = () => {
   return (
-    <WrapItem key={index}>
+    <WrapItem>
       <Center
         w="50px"
         h="50px"

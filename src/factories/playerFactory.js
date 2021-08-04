@@ -1,7 +1,7 @@
 import { ShipFactory } from "./shipFactory";
 
 const PlayerFactory = (aiOrHuman) => {
-  const playedCoordinates = [];
+  // const playedCoordinates = [];
   const myShips = [];
   let ai;
 

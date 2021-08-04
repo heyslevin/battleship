@@ -16,16 +16,16 @@ const ShipFactory = (length) => {
   };
 
   const checkIfSunk = function shipHasNoMoreHitPoints() {
-    if (data.hitPoints == 0) {
+    if (data.hitPoints === 0) {
       return true;
     }
   };
 
   const setOrientation = function zeroIsHorizontalOneIsVertical() {
     let orientation = Math.floor(Math.random() < 0.5);
-    if (orientation == 0) {
+    if (orientation === 0) {
       return "x";
-    } else if (orientation == 1) {
+    } else if (orientation === 1) {
       return "y";
     } else {
       return "error";
