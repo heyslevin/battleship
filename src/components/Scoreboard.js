@@ -1,7 +1,18 @@
-import { Box, Center, Heading } from "@chakra-ui/react";
+import { Box, Center, Heading, Text } from "@chakra-ui/react";
 import React from "react";
 
-const Scoreboard = (props) => {
+const Scoreboard = ({ currentTurn }) => {
+  let turnColor = "";
+  let turn = "";
+
+  if (currentTurn === "player") {
+    turnColor = "green";
+    turn = "your";
+  } else if (currentTurn === "computer") {
+    turnColor = "gray";
+    turn = "the computer's";
+  }
+
   return (
     <Center>
       <Box
@@ -16,6 +27,9 @@ const Scoreboard = (props) => {
         <Heading align="center" size="s">
           Welcome to the game! Let's play.
         </Heading>
+        <Text align="center" color={turnColor}>
+          Its {turn} turn.
+        </Text>
       </Box>
     </Center>
   );

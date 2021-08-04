@@ -91,14 +91,14 @@ Create a ship
 0. Structure
 
    - Game (Who's turn, Player Ships)
-     - Scoreboard (Game Over)
+     - Scoreboard
      - Board
        - Units (Player pick, Ship status, Unit status)
 
 1. Pieces of data
    - Game status
      - Who's turn \*\*
-     - Game over (all player ships sunk) \*\*
+     - Game over (all player ships sunk)
      - Who won
    - Players
      - Player ships \*\*
