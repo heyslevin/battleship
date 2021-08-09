@@ -3,7 +3,7 @@ import PlayerFactory from "./playerFactory";
 const BoardFactory = () => {
   //Constructor
 
-  const units = (function (generateUnits) {
+  let units = (function (generateUnits) {
     let boardUnits = [];
 
     // Global functions to store data
@@ -30,10 +30,8 @@ const BoardFactory = () => {
     //Unit properties are created
     const createUnitData = () => {
       for (let i = 0; i < 100; i++) {
-        let unitName = allUnitNames[i];
-
         let unit = {
-          name: unitName,
+          name: i + 1,
           coordinates: allUnitCoordinates[i],
           isHit: false,
           hasShip: false,
@@ -141,7 +139,7 @@ const BoardFactory = () => {
     let updatedUnits = units.map((unit) => {
       // Finds unit in unitArray, and updates it
       const foundUnit = filteredUnits.find((filtered) => {
-        return filtered.name == unit.name;
+        return filtered.name === unit.name;
       });
 
       if (foundUnit) {
@@ -178,7 +176,7 @@ const BoardFactory = () => {
     let selectedUnits;
 
     // Check if coordinates is a single array or group of arrays
-    if (coordinates.length == 2 && coordinates[0][0] == undefined) {
+    if (coordinates.length === 2 && coordinates[0][0] === undefined) {
       selectedUnits = filterUnit(coordinates);
     } else {
       selectedUnits = filterUnits(coordinates);
@@ -190,7 +188,7 @@ const BoardFactory = () => {
     }
 
     //Step 3, Update units with new info
-    updateShipInfo(units, selectedUnits, hasShip, ship);
+    units = updateShipInfo(units, selectedUnits, hasShip, ship);
 
     return units;
   };
@@ -212,7 +210,7 @@ const BoardFactory = () => {
     let whichShip = selectedUnit[0].whichShip;
 
     let thisShip = allShips.filter((ship) => {
-      return ship.data.whichShip == whichShip;
+      return ship.data.whichShip === whichShip;
     })[0];
 
     // Takes a hit

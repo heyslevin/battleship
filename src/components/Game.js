@@ -1,31 +1,69 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { Heading } from "@chakra-ui/react";
 
 import Scoreboard from "./Scoreboard";
 import Board from "./Board";
 
-import PlayerFactory from "../factories/playerFactory";
+import BoardFactory from "../factories/boardFactory";
 
 const Game = (props) => {
-  const [turn, setTurn] = useState("player");
-  const [players, setPlayers] = useState(() => {
-    const player = PlayerFactory("human");
-    const computer = PlayerFactory("computer");
+  const [turn, setTurn] = useState("playerHuman");
+  const [game, setGame] = useState("noGameStarted");
+  const [players, setPlayers] = useState("noPlayers");
+
+  // Initializes Game after first render
+  useEffect(() => {
+    const game = BoardFactory();
+    const players = game.addPlayers();
     const shipLengths = [5, 4, 3, 2, 1];
 
-    shipLengths.forEach((length) => player.addShip(length));
-    shipLengths.forEach((length) => computer.addShip(length));
+    const { playerHuman, playerAi } = players;
 
-    return { player, computer };
-  });
+    shipLengths.forEach((length) => playerHuman.addShip(length));
+    shipLengths.forEach((length) => playerAi.addShip(length));
 
+    setPlayers({ playerHuman, playerAi });
+    setGame(game);
+  }, []);
+
+  const placeShips = function placePlayerShipsOnBoard(player) {
+    const ships = player.myShips;
+    ships.forEach((ship) => {
+      let isEmptyCoordinates = false;
+      let coordinates = [];
+
+      while (!isEmptyCoordinates) {
+        isEmptyCoordinates = true;
+        coordinates = player.playerPickShipCoordinates(ship);
+
+        coordinates.forEach((coordinate) => {
+          if (game.units[([coordinate[0]], [coordinate[1]])].hasShip) {
+            isEmptyCoordinates = false;
+          }
+        });
+      }
+
+      let newUnits = game.placeShip(coordinates, ship);
+
+      setGame((prevState) => ({
+        ...prevState,
+        units: newUnits,
+      }));
+    });
+    alert("ships have been placed");
+  };
   return (
     <React.Fragment>
       <Heading align="center">Welcome to Battleship</Heading>
-      <Scoreboard currentTurn={turn} />
-      <Board />
+      <Scoreboard
+        currentTurn={turn}
+        game={game}
+        players={players}
+        placeShips={placeShips}
+      />
+      <Board game={game} />
     </React.Fragment>
   );
 };

@@ -190,7 +190,7 @@ it("Returns false if space is Unavailable", () => {
   expect(result).toBe(false);
 });
 
-it("Test Place Ship, Multiples", () => {
+it.only("Test Place Ship, Multiples", () => {
   const board = BoardFactory();
 
   const ship1 = {};

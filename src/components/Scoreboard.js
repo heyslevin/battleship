@@ -1,15 +1,16 @@
 import React from "react";
 
-import { Box, Center, Heading, Text } from "@chakra-ui/react";
+import { Box, Button, Center, Heading, Text } from "@chakra-ui/react";
 
-const Scoreboard = ({ currentTurn }) => {
+const Scoreboard = ({ currentTurn, placeShips, players }) => {
   let turnColor = "";
   let turn = "";
+  let handleClick = () => placeShips(players[currentTurn]);
 
-  if (currentTurn === "player") {
+  if (currentTurn === "playerHuman") {
     turnColor = "green";
     turn = "your";
-  } else if (currentTurn === "computer") {
+  } else if (currentTurn === "playerAi") {
     turnColor = "gray";
     turn = "the computer's";
   }
@@ -24,13 +25,13 @@ const Scoreboard = ({ currentTurn }) => {
         border="1px solid"
         borderColor="gray.500"
         borderRadius="3px"
+        align="center"
       >
-        <Heading align="center" size="s">
-          Welcome to the game! Let's play.
-        </Heading>
-        <Text align="center" color={turnColor}>
-          Its {turn} turn.
-        </Text>
+        <Heading size="s">Welcome to the game! Let's play.</Heading>
+        <Text color={turnColor}>Its {turn} turn.</Text>
+        <Button mt={4} colorScheme="teal" onClick={handleClick}>
+          Get Started
+        </Button>
       </Box>
     </Center>
   );

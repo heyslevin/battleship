@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Box, HStack, Wrap } from "@chakra-ui/react";
 
@@ -7,7 +7,19 @@ import Unit from "./Unit";
 //note
 
 const Board = (props) => {
-  let grid = [...Array(100)].map((e, index) => <Unit key={index} />);
+  let filterUnitsWithShip = "";
+
+  if (props.game.units) {
+    let filterUnitsWithShip = props.game.units.filter((unit) => {
+      return unit.hasShip;
+    });
+
+    console.log(filterUnitsWithShip);
+  }
+
+  let grid = [...Array(100)].map((e, index) => (
+    <Unit key={index} index={index} />
+  ));
 
   return (
     <HStack justifyContent="center">
