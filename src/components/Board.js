@@ -3,23 +3,37 @@ import React, { useState } from "react";
 import { Box, HStack, Wrap } from "@chakra-ui/react";
 
 import Unit from "./Unit";
-
-//note
+import { useEffect } from "react";
 
 const Board = (props) => {
-  let filterUnitsWithShip = "";
+  const [unitsWithShip, setUnitsWithShip] = useState(["no units"]);
+  const [filterUnitsWithShip, setFilterUnitsWithShip] = useState("no units");
 
-  if (props.game.units) {
-    let filterUnitsWithShip = props.game.units.filter((unit) => {
-      return unit.hasShip;
-    });
-
-    console.log(filterUnitsWithShip);
+  if (!props.startGame) {
+    return null;
   }
 
-  let grid = [...Array(100)].map((e, index) => (
-    <Unit key={index} index={index} />
-  ));
+  let filterUnits = props.game.units.filter((unit) => unit.hasShip);
+  console.log(filterUnits);
+
+  let onlyIndex = filterUnits.map((unit) => {
+    return unit.name;
+  });
+  console.log(onlyIndex);
+
+  // let grid = [...Array(100)].map((e, index) => (
+  //   <Unit key={index} index={index} />
+  // ));
+
+  let gridUnits = props.game.units;
+
+  let grid = gridUnits.map((unit, index) => {
+    if (onlyIndex.includes(unit.name)) {
+      return <Unit key={index} index={index} hasShip={true} />;
+    } else {
+      return <Unit key={index} index={index} hasShip={false} />;
+    }
+  });
 
   return (
     <HStack justifyContent="center">

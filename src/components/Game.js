@@ -12,6 +12,7 @@ const Game = (props) => {
   const [turn, setTurn] = useState("playerHuman");
   const [game, setGame] = useState("noGameStarted");
   const [players, setPlayers] = useState("noPlayers");
+  const [startGame, setStartGame] = useState(false);
 
   // Initializes Game after first render
   useEffect(() => {
@@ -26,7 +27,7 @@ const Game = (props) => {
 
     setPlayers({ playerHuman, playerAi });
     setGame(game);
-  }, []);
+  }, [startGame]);
 
   const placeShips = function placePlayerShipsOnBoard(player) {
     const ships = player.myShips;
@@ -62,8 +63,10 @@ const Game = (props) => {
         game={game}
         players={players}
         placeShips={placeShips}
+        startGame={startGame}
+        setStartGame={setStartGame}
       />
-      <Board game={game} />
+      <Board game={game} startGame={startGame} />
     </React.Fragment>
   );
 };
