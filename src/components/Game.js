@@ -13,6 +13,7 @@ const Game = (props) => {
   const [game, setGame] = useState("noGameStarted");
   const [players, setPlayers] = useState("noPlayers");
   const [startGame, setStartGame] = useState(false);
+  const [shipCoordinates, setShipCoordinates] = useState([]);
 
   // Initializes Game after first render
   useEffect(() => {
@@ -47,6 +48,8 @@ const Game = (props) => {
       }
 
       let newUnits = game.placeShip(coordinates, ship);
+
+      setShipCoordinates((prevState) => [...prevState, coordinates]);
 
       setGame((prevState) => ({
         ...prevState,

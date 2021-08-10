@@ -24,7 +24,7 @@ const PlayerFactory = (aiOrHuman) => {
   };
 
   const generateLimitedNumber = (shipLength) => {
-    return Math.floor(Math.random() * (10 - shipLength + 1));
+    return Math.floor(Math.random() * (9 - shipLength + 1));
   };
 
   const generateCoordinates = function generateSingleCoordinatesToPlaceShip(
