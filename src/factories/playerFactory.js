@@ -24,7 +24,7 @@ const PlayerFactory = (aiOrHuman) => {
   };
 
   const generateLimitedNumber = (shipLength) => {
-    return Math.floor(Math.random() * (9 - shipLength + 1));
+    return Math.floor(Math.random() * (10 - shipLength + 1));
   };
 
   const generateCoordinates = function generateSingleCoordinatesToPlaceShip(
@@ -33,9 +33,18 @@ const PlayerFactory = (aiOrHuman) => {
   ) {
     // If ship.orientation = direction, do limited random number. Else, do free random number.
     if (ship.data.orientation === direction) {
-      return generateLimitedNumber(ship.data.length);
+      let coordinate = generateLimitedNumber(ship.data.length);
+      return coordinate;
+    } else if (ship.data.orientation !== direction) {
+      let coordinate = generateNumber();
+      return coordinate;
     } else {
-      return generateNumber();
+      alert(
+        "error. ship orientation: " +
+          ship.data.orientation +
+          "direction: " +
+          direction
+      );
     }
   };
 
@@ -46,11 +55,17 @@ const PlayerFactory = (aiOrHuman) => {
     let y = generateCoordinates(ship, "y");
 
     //Generate rest of coordinates, push to playerCoordinates
-    for (let i = x; i < ship.data.length + x; i++) {
-      playerCoordinates.push([i, y]);
+    if (ship.data.orientation === "x") {
+      for (let i = x; i < ship.data.length + x; i++) {
+        playerCoordinates.push([i, y]);
+      }
+      return playerCoordinates;
+    } else if (ship.data.orientation === "y") {
+      for (let i = y; i < ship.data.length + y; i++) {
+        playerCoordinates.push([x, i]);
+      }
+      return playerCoordinates;
     }
-
-    return playerCoordinates;
 
     // NEXT: check if all coordinates available
     // Loop, while true, continue

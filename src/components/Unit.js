@@ -14,7 +14,9 @@ const Unit = (props) => {
         border="1px"
         borderColor="gray.500"
         borderRadius="5px"
-      ></Center>
+      >
+        {props.index}
+      </Center>
     </WrapItem>
   );
 };

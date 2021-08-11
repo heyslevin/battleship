@@ -14,16 +14,14 @@ const Board = (props) => {
   }
 
   let filterUnits = props.game.units.filter((unit) => unit.hasShip);
-  console.log(filterUnits);
 
   let onlyIndex = filterUnits.map((unit) => {
     return unit.name;
   });
-  console.log(onlyIndex);
 
-  // let grid = [...Array(100)].map((e, index) => (
-  //   <Unit key={index} index={index} />
-  // ));
+  let blankGrid = [...Array(100)].map((e, index) => (
+    <Unit key={index} index={index} />
+  ));
 
   let gridUnits = props.game.units;
 
@@ -44,7 +42,7 @@ const Board = (props) => {
       </Box>
       <Box w="510px" py="5px" px="5px" borderRadius="3px" bg="red.500">
         <Wrap justify="center" spacing="0">
-          {grid}
+          {blankGrid}
         </Wrap>
       </Box>
     </HStack>

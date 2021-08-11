@@ -38,7 +38,6 @@ const Game = (props) => {
 
       while (!isEmptyCoordinates) {
         isEmptyCoordinates = true;
-        debugger;
         coordinates = player.playerPickShipCoordinates(ship);
 
         coordinates.forEach((coordinate) => {
@@ -58,8 +57,8 @@ const Game = (props) => {
         units: newUnits,
       }));
     });
-    alert("ships have been placed");
   };
+
   return (
     <React.Fragment>
       <Heading align="center">Welcome to Battleship</Heading>

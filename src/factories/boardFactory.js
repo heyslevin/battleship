@@ -12,11 +12,11 @@ const BoardFactory = () => {
 
     // Loop Creates coordinates and unique unit names
     const createCoordinates = function () {
-      for (let x = 0; x < 10; x++) {
+      for (let y = 0; y < 10; y++) {
         let coordinate = [];
         let name = "";
 
-        for (let y = 0; y < 10; y++) {
+        for (let x = 0; x < 10; x++) {
           coordinate = [x, y];
 
           name = "square" + x + y;
@@ -31,7 +31,7 @@ const BoardFactory = () => {
     const createUnitData = () => {
       for (let i = 0; i < 100; i++) {
         let unit = {
-          name: i + 1,
+          name: i,
           coordinates: allUnitCoordinates[i],
           isHit: false,
           hasShip: false,
@@ -96,7 +96,8 @@ const BoardFactory = () => {
         return true;
       }
     });
-    return matches;
+    let result = matches[0];
+    return result;
   };
 
   //Checks if space is available (aka does not have a ship). If all hasShip is false, then returns true (true, space is available)
@@ -183,9 +184,9 @@ const BoardFactory = () => {
     }
 
     //Step 2, If no space available, exit function
-    if (!spaceChecker(selectedUnits)) {
-      return false;
-    }
+    // if (!spaceChecker(selectedUnits)) {
+    //   return false;
+    // }
 
     //Step 3, Update units with new info
     units = updateShipInfo(units, selectedUnits, hasShip, ship);
