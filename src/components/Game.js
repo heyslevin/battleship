@@ -38,10 +38,12 @@ const Game = (props) => {
 
       while (!isEmptyCoordinates) {
         isEmptyCoordinates = true;
+        debugger;
         coordinates = player.playerPickShipCoordinates(ship);
 
         coordinates.forEach((coordinate) => {
-          if (game.units[([coordinate[0]], [coordinate[1]])].hasShip) {
+          let currentUnit = game.filterUnit(coordinate);
+          if (currentUnit.hasShip) {
             isEmptyCoordinates = false;
           }
         });
