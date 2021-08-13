@@ -12,26 +12,35 @@ const Board = (props) => {
   if (!props.startGame) {
     return null;
   }
+  const setBoard = (playerBoard) => {
+    let filterUnits = playerBoard.units.filter((unit) => unit.hasShip);
+    console.log(filterUnits + "for" + playerBoard);
 
-  let filterUnits = props.game.units.filter((unit) => unit.hasShip);
+    let onlyIndex = filterUnits.map((unit) => {
+      return unit.name;
+    });
 
-  let onlyIndex = filterUnits.map((unit) => {
-    return unit.name;
-  });
+    let blankGrid = [...Array(100)].map((e, index) => (
+      <Unit key={index} index={index} />
+    ));
 
-  let blankGrid = [...Array(100)].map((e, index) => (
-    <Unit key={index} index={index} />
-  ));
+    let gridUnits = playerBoard.units;
 
-  let gridUnits = props.game.units;
+    return gridUnits.map((unit, index) => {
+      if (onlyIndex.includes(unit.name)) {
+        return (
+          <Unit key={index} index={index} hasShip={true} ai={playerBoard.ai} />
+        );
+      } else {
+        return (
+          <Unit key={index} index={index} hasShip={false} ai={playerBoard.ai} />
+        );
+      }
+    });
+  };
 
-  let grid = gridUnits.map((unit, index) => {
-    if (onlyIndex.includes(unit.name)) {
-      return <Unit key={index} index={index} hasShip={true} />;
-    } else {
-      return <Unit key={index} index={index} hasShip={false} />;
-    }
-  });
+  let grid = setBoard(props.humanBoard);
+  let blankGrid = setBoard(props.computerBoard);
 
   return (
     <HStack justifyContent="center">

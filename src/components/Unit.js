@@ -2,7 +2,8 @@ import { Center, WrapItem } from "@chakra-ui/react";
 import React from "react";
 
 const Unit = (props) => {
-  let bgColor = props.hasShip ? "blue" : "white";
+  let shipColor = props.ai ? "red" : "blue";
+  let bgColor = props.hasShip ? shipColor : "white";
 
   return (
     <WrapItem>

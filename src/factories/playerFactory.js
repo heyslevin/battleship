@@ -100,7 +100,7 @@ const PlayerFactory = (aiOrHuman) => {
     // - If coordinate has been already hit, try another until not hit
   };
 
-  return { aiPlay, playerPickShipCoordinates, addShip, myShips };
+  return { aiPlay, playerPickShipCoordinates, addShip, myShips, ai };
 };
 
 export default PlayerFactory;

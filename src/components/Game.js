@@ -7,31 +7,34 @@ import Scoreboard from "./Scoreboard";
 import Board from "./Board";
 
 import BoardFactory from "../factories/boardFactory";
+import gameSetup from "../utilities/gameSetup";
 
 const Game = (props) => {
   const [turn, setTurn] = useState("playerHuman");
-  const [game, setGame] = useState("noGameStarted");
+  const [humanBoard, setHumanBoard] = useState("noHumanBoard");
+  const [computerBoard, setComputerBoard] = useState("noComputerBoard");
   const [players, setPlayers] = useState("noPlayers");
   const [startGame, setStartGame] = useState(false);
   const [shipCoordinates, setShipCoordinates] = useState([]);
 
   // Initializes Game after first render
   useEffect(() => {
-    const game = BoardFactory();
-    const players = game.addPlayers();
-    const shipLengths = [5, 4, 3, 2, 1];
-
-    const { playerHuman, playerAi } = players;
-
-    shipLengths.forEach((length) => playerHuman.addShip(length));
-    shipLengths.forEach((length) => playerAi.addShip(length));
+    let setUpGame = gameSetup().start();
+    const { playerHuman, playerAi, humanBoard, computerBoard } = setUpGame;
 
     setPlayers({ playerHuman, playerAi });
-    setGame(game);
+    setHumanBoard(humanBoard);
+    setComputerBoard(computerBoard);
   }, [startGame]);
 
   const placeShips = function placePlayerShipsOnBoard(player) {
     const ships = player.myShips;
+    let board = humanBoard;
+    let playerAi = player.ai;
+
+    if (player.ai) {
+      board = computerBoard;
+    }
     ships.forEach((ship) => {
       let isEmptyCoordinates = false;
       let coordinates = [];
@@ -41,21 +44,32 @@ const Game = (props) => {
         coordinates = player.playerPickShipCoordinates(ship);
 
         coordinates.forEach((coordinate) => {
-          let currentUnit = game.filterUnit(coordinate);
+          let currentUnit = board.filterUnit(coordinate);
           if (currentUnit.hasShip) {
             isEmptyCoordinates = false;
           }
         });
       }
 
-      let newUnits = game.placeShip(coordinates, ship);
+      let newUnits = board.placeShip(coordinates, ship);
 
+      //Optional
       setShipCoordinates((prevState) => [...prevState, coordinates]);
 
-      setGame((prevState) => ({
-        ...prevState,
-        units: newUnits,
-      }));
+      if (!player.ai) {
+        setHumanBoard((prevState) => ({
+          ...prevState,
+          units: newUnits,
+        }));
+      } else if (player.ai) {
+        setComputerBoard((prevState) => ({
+          ...prevState,
+          units: newUnits,
+        }));
+      } else {
+        console.log(player);
+        alert("error with updating units");
+      }
     });
   };
 
@@ -63,14 +77,17 @@ const Game = (props) => {
     <React.Fragment>
       <Heading align="center">Welcome to Battleship</Heading>
       <Scoreboard
-        currentTurn={turn}
-        game={game}
+        turn={turn}
         players={players}
         placeShips={placeShips}
         startGame={startGame}
         setStartGame={setStartGame}
       />
-      <Board game={game} startGame={startGame} />
+      <Board
+        startGame={startGame}
+        humanBoard={humanBoard}
+        computerBoard={computerBoard}
+      />
     </React.Fragment>
   );
 };

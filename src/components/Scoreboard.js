@@ -23,7 +23,8 @@ const Scoreboard = ({
     if (!startGame) {
       setStartGame(true);
     } else {
-      placeShips(players[currentTurn]);
+      placeShips(players["playerHuman"]);
+      placeShips(players["playerAi"]);
     }
   };
 

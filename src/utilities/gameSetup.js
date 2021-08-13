@@ -3,7 +3,7 @@ import BoardFactory from "../factories/boardFactory";
 const gameSetup = () => {
   const start = function createBoardAndPlayers() {
     const humanBoard = BoardFactory();
-    const computerBoard = BoardFactory();
+    const computerBoard = BoardFactory("computer");
 
     const addHumanPlayer = humanBoard.addPlayers("human");
     const addComputerPlayer = computerBoard.addPlayers("computer");

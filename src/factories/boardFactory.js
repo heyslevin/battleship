@@ -1,7 +1,12 @@
 import PlayerFactory from "./playerFactory";
 
-const BoardFactory = () => {
+const BoardFactory = (type) => {
   //Constructor
+
+  let ai = false;
+  if (type === "computer") {
+    ai = true;
+  }
 
   let units = (function (generateUnits) {
     let boardUnits = [];
@@ -163,11 +168,16 @@ const BoardFactory = () => {
 
   //Player functions
 
-  const addPlayers = function createsPlayers() {
-    const playerHuman = PlayerFactory("human");
-    const playerAi = PlayerFactory("computer");
-
-    return { playerHuman, playerAi };
+  const addPlayers = function createsPlayers(typeOfPlayer) {
+    if (typeOfPlayer === "human") {
+      const playerHuman = PlayerFactory("human");
+      return { playerHuman };
+    } else if (typeOfPlayer === "computer") {
+      const playerAi = PlayerFactory("computer");
+      return { playerAi };
+    } else {
+      alert("error creating player, no player type specified");
+    }
   };
 
   const placeShip = function placeShipInUnit(coordinates, ship) {
@@ -238,6 +248,7 @@ const BoardFactory = () => {
     updateShipInfo,
     receiveAttack,
     addPlayers,
+    ai,
   };
 };
 
