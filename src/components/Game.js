@@ -82,11 +82,14 @@ const Game = (props) => {
         placeShips={placeShips}
         startGame={startGame}
         setStartGame={setStartGame}
+        turn={turn}
       />
       <Board
         startGame={startGame}
         humanBoard={humanBoard}
         computerBoard={computerBoard}
+        turn={turn}
+        players={players}
       />
     </React.Fragment>
   );

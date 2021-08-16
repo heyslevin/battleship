@@ -1,9 +1,13 @@
 import { Center, WrapItem } from "@chakra-ui/react";
 import React from "react";
 
-const Unit = (props) => {
-  let shipColor = props.ai ? "red" : "blue";
-  let bgColor = props.hasShip ? shipColor : "white";
+const Unit = ({ hasShip, ai, handleUnitClick, index }) => {
+  let shipColor = ai ? "red" : "blue";
+  let bgColor = hasShip ? shipColor : "white";
+
+  let handleClick = () => {
+    handleUnitClick(index);
+  };
 
   return (
     <WrapItem>
@@ -15,8 +19,9 @@ const Unit = (props) => {
         border="1px"
         borderColor="gray.500"
         borderRadius="5px"
+        onClick={handleClick}
       >
-        {props.index}
+        {index}
       </Center>
     </WrapItem>
   );

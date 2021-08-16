@@ -2,15 +2,9 @@ import React from "react";
 
 import { Box, Button, Center, Heading, Text } from "@chakra-ui/react";
 
-const Scoreboard = ({
-  currentTurn,
-  placeShips,
-  players,
-  startGame,
-  setStartGame,
-}) => {
+const Scoreboard = ({ turn, placeShips, players, startGame, setStartGame }) => {
   let turnColor = "";
-  let turn = "";
+  let turnText = "";
   let buttonText = "";
 
   if (!startGame) {
@@ -28,12 +22,14 @@ const Scoreboard = ({
     }
   };
 
-  if (currentTurn === "playerHuman") {
+  if (turn === "playerHuman") {
     turnColor = "green";
-    turn = "your";
-  } else if (currentTurn === "playerAi") {
+    turnText = "your";
+  } else if (turn === "playerAi") {
     turnColor = "gray";
-    turn = "the computer's";
+    turnText = "the computer's";
+  } else {
+    alert("no turn");
   }
 
   return (
@@ -49,7 +45,7 @@ const Scoreboard = ({
         align="center"
       >
         <Heading size="s">Welcome to the game! Let's play.</Heading>
-        <Text color={turnColor}>Its {turn} turn.</Text>
+        <Text color={turnColor}>Its {turnText} turn.</Text>
         <Button mt={4} colorScheme="teal" onClick={handleClick}>
           {buttonText}
         </Button>

@@ -204,12 +204,17 @@ const BoardFactory = (type) => {
     return units;
   };
 
-  const receiveAttack = function shipGetsHit(coordinate, allShips) {
+  const receiveAttack = function shipGetsHit(unit, allShips) {
     // Step 1: Find units with those coordinates.
-    let selectedUnit = filterUnit(coordinate);
+    console.log(unit.coordinates);
+
+    let selectedUnit = filterUnit(unit.coordinates);
 
     // Step 2: if no ship on space, mark space as "space hit, but no ship"
-    if (spaceChecker(selectedUnit)) {
+    alert(selectedUnit.hasShip);
+    debugger;
+
+    if (!selectedUnit.hasShip) {
       updateShipInfo(units, selectedUnit, isHit);
     }
 

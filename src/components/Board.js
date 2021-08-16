@@ -5,42 +5,68 @@ import { Box, HStack, Wrap } from "@chakra-ui/react";
 import Unit from "./Unit";
 import { useEffect } from "react";
 
-const Board = (props) => {
+const Board = ({ startGame, humanBoard, computerBoard, turn, players }) => {
   const [unitsWithShip, setUnitsWithShip] = useState(["no units"]);
   const [filterUnitsWithShip, setFilterUnitsWithShip] = useState("no units");
 
-  if (!props.startGame) {
+  if (!startGame) {
     return null;
   }
+
+  const handleUnitClick = function unitHasBeenClicked(unitIndex) {
+    let enemyBoard;
+    let currentPlayer;
+    if (turn === "playerHuman") {
+      currentPlayer = players.playerHuman;
+      enemyBoard = computerBoard;
+    } else if (turn === "playerAi") {
+      currentPlayer = players.playerAi;
+      enemyBoard = humanBoard;
+    } else {
+      alert("error, turn is" + turn);
+    }
+    enemyBoard.receiveAttack(
+      enemyBoard.units[unitIndex],
+      currentPlayer.myShips
+    );
+  };
+
   const setBoard = (playerBoard) => {
     let filterUnits = playerBoard.units.filter((unit) => unit.hasShip);
-    console.log(filterUnits + "for" + playerBoard);
 
     let onlyIndex = filterUnits.map((unit) => {
       return unit.name;
     });
-
-    let blankGrid = [...Array(100)].map((e, index) => (
-      <Unit key={index} index={index} />
-    ));
 
     let gridUnits = playerBoard.units;
 
     return gridUnits.map((unit, index) => {
       if (onlyIndex.includes(unit.name)) {
         return (
-          <Unit key={index} index={index} hasShip={true} ai={playerBoard.ai} />
+          <Unit
+            key={index}
+            index={index}
+            hasShip={true}
+            ai={playerBoard.ai}
+            handleUnitClick={handleUnitClick}
+          />
         );
       } else {
         return (
-          <Unit key={index} index={index} hasShip={false} ai={playerBoard.ai} />
+          <Unit
+            key={index}
+            index={index}
+            hasShip={false}
+            ai={playerBoard.ai}
+            handleUnitClick={handleUnitClick}
+          />
         );
       }
     });
   };
 
-  let grid = setBoard(props.humanBoard);
-  let blankGrid = setBoard(props.computerBoard);
+  let grid = setBoard(humanBoard);
+  let blankGrid = setBoard(computerBoard);
 
   return (
     <HStack justifyContent="center">
