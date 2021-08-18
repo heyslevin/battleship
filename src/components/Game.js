@@ -90,6 +90,8 @@ const Game = (props) => {
         computerBoard={computerBoard}
         turn={turn}
         players={players}
+        setHumanBoard={setHumanBoard}
+        setComputerBoard={setComputerBoard}
       />
     </React.Fragment>
   );

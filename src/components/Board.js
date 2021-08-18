@@ -5,7 +5,15 @@ import { Box, HStack, Wrap } from "@chakra-ui/react";
 import Unit from "./Unit";
 import { useEffect } from "react";
 
-const Board = ({ startGame, humanBoard, computerBoard, turn, players }) => {
+const Board = ({
+  startGame,
+  humanBoard,
+  setHumanBoard,
+  computerBoard,
+  setComputerBoard,
+  turn,
+  players,
+}) => {
   const [unitsWithShip, setUnitsWithShip] = useState(["no units"]);
   const [filterUnitsWithShip, setFilterUnitsWithShip] = useState("no units");
 
@@ -16,52 +24,45 @@ const Board = ({ startGame, humanBoard, computerBoard, turn, players }) => {
   const handleUnitClick = function unitHasBeenClicked(unitIndex) {
     let enemyBoard;
     let currentPlayer;
+    let setBoard;
     if (turn === "playerHuman") {
       currentPlayer = players.playerHuman;
       enemyBoard = computerBoard;
+      setBoard = setComputerBoard;
     } else if (turn === "playerAi") {
       currentPlayer = players.playerAi;
       enemyBoard = humanBoard;
+      setBoard = setHumanBoard;
     } else {
       alert("error, turn is" + turn);
     }
+
     enemyBoard.receiveAttack(
       enemyBoard.units[unitIndex]["coordinates"],
       currentPlayer.myShips
     );
+
+    setBoard((prevState) => ({
+      ...prevState,
+      units: enemyBoard.units,
+    }));
   };
 
   const setBoard = (playerBoard) => {
-    let filterUnits = playerBoard.units.filter((unit) => unit.hasShip);
-
-    let onlyIndex = filterUnits.map((unit) => {
-      return unit.name;
-    });
-
     let gridUnits = playerBoard.units;
+    console.log(gridUnits);
 
     return gridUnits.map((unit, index) => {
-      if (onlyIndex.includes(unit.name)) {
-        return (
-          <Unit
-            key={index}
-            index={index}
-            hasShip={true}
-            ai={playerBoard.ai}
-            handleUnitClick={handleUnitClick}
-          />
-        );
-      } else {
-        return (
-          <Unit
-            key={index}
-            index={index}
-            hasShip={false}
-            ai={playerBoard.ai}
-            handleUnitClick={handleUnitClick}
-          />
-        );
-      }
+      return (
+        <Unit
+          key={index}
+          index={index}
+          hasShip={unit.hasShip}
+          ai={playerBoard.ai}
+          handleUnitClick={handleUnitClick}
+          isHit={unit.isHit}
+        />
+      );
     });
   };
 
