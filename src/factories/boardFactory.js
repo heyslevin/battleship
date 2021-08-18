@@ -101,7 +101,7 @@ const BoardFactory = (type) => {
         return true;
       }
     });
-    let result = matches[0];
+    let result = matches;
     return result;
   };
 
@@ -144,6 +144,7 @@ const BoardFactory = (type) => {
   ) {
     let updatedUnits = units.map((unit) => {
       // Finds unit in unitArray, and updates it
+
       const foundUnit = filteredUnits.find((filtered) => {
         return filtered.name === unit.name;
       });
@@ -185,7 +186,6 @@ const BoardFactory = (type) => {
 
     // Step 1: Find units with those coordinates
     let selectedUnits;
-
     // Check if coordinates is a single array or group of arrays
     if (coordinates.length === 2 && coordinates[0][0] === undefined) {
       selectedUnits = filterUnit(coordinates);
@@ -197,49 +197,53 @@ const BoardFactory = (type) => {
     // if (!spaceChecker(selectedUnits)) {
     //   return false;
     // }
-
     //Step 3, Update units with new info
+
     units = updateShipInfo(units, selectedUnits, hasShip, ship);
 
     return units;
   };
 
-  const receiveAttack = function shipGetsHit(unit, allShips) {
+  const receiveAttack = function shipGetsHit(coordinates, allShips) {
     // Step 1: Find units with those coordinates.
-    console.log(unit.coordinates);
-
-    let selectedUnit = filterUnit(unit.coordinates);
+    let selectedUnitArray = filterUnit(coordinates);
+    let selectedUnit = filterUnit(coordinates)[0];
 
     // Step 2: if no ship on space, mark space as "space hit, but no ship"
-    alert(selectedUnit.hasShip);
-    debugger;
-
     if (!selectedUnit.hasShip) {
-      updateShipInfo(units, selectedUnit, isHit);
-    }
+      updateShipInfo(units, selectedUnitArray, isHit, false);
+    } else if (selectedUnit.hasShip) {
+      alert("hit one");
+      let whichShip = selectedUnit.whichShip;
+      let thisShip = allShips.filter((ship) => {
+        return ship.data.whichShip === whichShip;
+      })[0];
+      console.log(thisShip);
 
-    //Step 3, if there is a ship, hit, and check if sunk
-    updateShipInfo(units, selectedUnit, isHit);
+      updateShipInfo(units, selectedUnitArray, isHit, thisShip);
 
-    //Step 4, find ship in ShipList, deduct hitpoints and check if sunk
-
-    let whichShip = selectedUnit[0].whichShip;
-
-    let thisShip = allShips.filter((ship) => {
-      return ship.data.whichShip === whichShip;
-    })[0];
-
-    // Takes a hit
-    thisShip.data.hit();
-
-    //Next, check is thisShip is sunk
-    if (thisShip.data.sunk) {
-      //ship down
+      return thisShip.data;
     } else {
-      //ship not down
+      alert("error in filtering unit in attack");
     }
 
-    return thisShip.data;
+    // //Step 4, find ship in ShipList, deduct hitpoints and check if sunk
+
+    // let whichShip = selectedUnit[0].whichShip;
+
+    // let thisShip = allShips.filter((ship) => {
+    //   return ship.data.whichShip === whichShip;
+    // })[0];
+
+    // // Takes a hit
+    // thisShip.data.hit();
+
+    // //Next, check is thisShip is sunk
+    // if (thisShip.data.sunk) {
+    //   //ship down
+    // } else {
+    //   //ship not down
+    // }
   };
 
   // Data generator for board

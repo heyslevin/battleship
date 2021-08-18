@@ -3,6 +3,7 @@ import { ShipFactory } from "./shipFactory";
 const PlayerFactory = (aiOrHuman) => {
   // const playedCoordinates = [];
   const myShips = [];
+  let shipCount = 1;
   let ai;
 
   // AI Checker when creating player
@@ -16,6 +17,8 @@ const PlayerFactory = (aiOrHuman) => {
 
   const addShip = function createsAShipWithFactory(length) {
     const ship = ShipFactory(length);
+    ship.data.whichShip = shipCount;
+    shipCount++;
     myShips.push(ship);
   };
 

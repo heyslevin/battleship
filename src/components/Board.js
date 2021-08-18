@@ -26,7 +26,7 @@ const Board = ({ startGame, humanBoard, computerBoard, turn, players }) => {
       alert("error, turn is" + turn);
     }
     enemyBoard.receiveAttack(
-      enemyBoard.units[unitIndex],
+      enemyBoard.units[unitIndex]["coordinates"],
       currentPlayer.myShips
     );
   };

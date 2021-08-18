@@ -1,15 +1,15 @@
-let ship = 0;
-
-const getShipNumber = () => {
-  ship++;
-  return ship;
-};
-
-const resetShips = () => {
-  ship = 0;
-};
-
 const ShipFactory = (length) => {
+  let ship = 0;
+
+  const getShipNumber = () => {
+    ship++;
+    return ship;
+  };
+
+  const resetShips = () => {
+    ship = 0;
+  };
+
   const hit = function shipTakesAHit() {
     data.hitPoints--;
     data.sunk = checkIfSunk();
@@ -39,7 +39,7 @@ const ShipFactory = (length) => {
     checkIfSunk: checkIfSunk,
     length: length,
     orientation: setOrientation(),
-    whichShip: getShipNumber(),
+    whichShip: "notSet",
     resetShips: resetShips,
     // owner: playerName,
   };
@@ -49,4 +49,4 @@ const ShipFactory = (length) => {
   return { data };
 };
 
-export { ShipFactory, resetShips };
+export { ShipFactory };

@@ -119,3 +119,6 @@ Create a ship
    - recieveAttack has parameters (coordinates, AllPlayerShips). Updates board and player with data.
 2. Code turns. If your turn, wait for input. If computer turn, run attack function
 3.
+
+Next:
+Allships and ship in coordinate have different "whichship"
