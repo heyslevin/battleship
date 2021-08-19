@@ -44,7 +44,7 @@ const Game = (props) => {
         coordinates = player.playerPickShipCoordinates(ship);
 
         coordinates.forEach((coordinate) => {
-          let currentUnit = board.filterUnit(coordinate);
+          let currentUnit = board.filterUnit(coordinate)[0];
           if (currentUnit.hasShip) {
             isEmptyCoordinates = false;
           }
@@ -67,7 +67,6 @@ const Game = (props) => {
           units: newUnits,
         }));
       } else {
-        console.log(player);
         alert("error with updating units");
       }
     });
@@ -90,6 +89,7 @@ const Game = (props) => {
         computerBoard={computerBoard}
         turn={turn}
         players={players}
+        setPlayers={setPlayers}
         setHumanBoard={setHumanBoard}
         setComputerBoard={setComputerBoard}
       />

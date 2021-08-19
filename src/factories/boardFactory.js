@@ -213,12 +213,22 @@ const BoardFactory = (type) => {
     if (!selectedUnit.hasShip) {
       updateShipInfo(units, selectedUnitArray, isHit, false);
     } else if (selectedUnit.hasShip) {
-      alert("hit one");
+      // Step 3, find ship in ShipList
       let whichShip = selectedUnit.whichShip;
       let thisShip = allShips.filter((ship) => {
         return ship.data.whichShip === whichShip;
       })[0];
-      console.log(thisShip);
+
+      // Step 4,deduct hitpoints and check if sunk
+      thisShip.data.hit();
+
+      if (thisShip.data.sunk) {
+        alert("Ship going DOWN");
+      } else {
+        alert("Still floating");
+      }
+
+      // Step 5, update ship Data
 
       updateShipInfo(units, selectedUnitArray, isHit, thisShip);
 
@@ -226,14 +236,6 @@ const BoardFactory = (type) => {
     } else {
       alert("error in filtering unit in attack");
     }
-
-    // //Step 4, find ship in ShipList, deduct hitpoints and check if sunk
-
-    // let whichShip = selectedUnit[0].whichShip;
-
-    // let thisShip = allShips.filter((ship) => {
-    //   return ship.data.whichShip === whichShip;
-    // })[0];
 
     // // Takes a hit
     // thisShip.data.hit();

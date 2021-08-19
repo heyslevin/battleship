@@ -13,6 +13,7 @@ const Board = ({
   setComputerBoard,
   turn,
   players,
+  setPlayers,
 }) => {
   const [unitsWithShip, setUnitsWithShip] = useState(["no units"]);
   const [filterUnitsWithShip, setFilterUnitsWithShip] = useState("no units");
@@ -25,12 +26,18 @@ const Board = ({
     let enemyBoard;
     let currentPlayer;
     let setBoard;
+    let currentEnemy;
+    let enemyName;
+    let updatedPlayers = players;
+
     if (turn === "playerHuman") {
-      currentPlayer = players.playerHuman;
+      currentEnemy = players.playerAi;
+      enemyName = "playerAi";
       enemyBoard = computerBoard;
       setBoard = setComputerBoard;
     } else if (turn === "playerAi") {
-      currentPlayer = players.playerAi;
+      currentEnemy = players.playerHuman;
+      enemyName = "playerHuman";
       enemyBoard = humanBoard;
       setBoard = setHumanBoard;
     } else {
@@ -39,18 +46,24 @@ const Board = ({
 
     enemyBoard.receiveAttack(
       enemyBoard.units[unitIndex]["coordinates"],
-      currentPlayer.myShips
+      currentEnemy.myShips
     );
 
     setBoard((prevState) => ({
       ...prevState,
       units: enemyBoard.units,
     }));
+    console.log(players);
+    console.log(currentPlayer);
+
+    setPlayers((prevState) => ({
+      ...prevState,
+      [enemyName]: currentEnemy,
+    }));
   };
 
   const setBoard = (playerBoard) => {
     let gridUnits = playerBoard.units;
-    console.log(gridUnits);
 
     return gridUnits.map((unit, index) => {
       return (
