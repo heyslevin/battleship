@@ -1,8 +1,9 @@
 import { ShipFactory } from "./shipFactory";
 
 const PlayerFactory = (aiOrHuman) => {
-  const playedCoordinates = [];
+  // const playedCoordinates = [];
   const myShips = [];
+  let shipCount = 1;
   let ai;
 
   // AI Checker when creating player
@@ -16,6 +17,8 @@ const PlayerFactory = (aiOrHuman) => {
 
   const addShip = function createsAShipWithFactory(length) {
     const ship = ShipFactory(length);
+    ship.data.whichShip = shipCount;
+    shipCount++;
     myShips.push(ship);
   };
 
@@ -33,9 +36,18 @@ const PlayerFactory = (aiOrHuman) => {
   ) {
     // If ship.orientation = direction, do limited random number. Else, do free random number.
     if (ship.data.orientation === direction) {
-      return generateLimitedNumber(ship.data.length);
+      let coordinate = generateLimitedNumber(ship.data.length);
+      return coordinate;
+    } else if (ship.data.orientation !== direction) {
+      let coordinate = generateNumber();
+      return coordinate;
     } else {
-      return generateNumber();
+      alert(
+        "error. ship orientation: " +
+          ship.data.orientation +
+          "direction: " +
+          direction
+      );
     }
   };
 
@@ -46,11 +58,17 @@ const PlayerFactory = (aiOrHuman) => {
     let y = generateCoordinates(ship, "y");
 
     //Generate rest of coordinates, push to playerCoordinates
-    for (let i = x; i < ship.data.length + x; i++) {
-      playerCoordinates.push([i, y]);
+    if (ship.data.orientation === "x") {
+      for (let i = x; i < ship.data.length + x; i++) {
+        playerCoordinates.push([i, y]);
+      }
+      return playerCoordinates;
+    } else if (ship.data.orientation === "y") {
+      for (let i = y; i < ship.data.length + y; i++) {
+        playerCoordinates.push([x, i]);
+      }
+      return playerCoordinates;
     }
-
-    return playerCoordinates;
 
     // NEXT: check if all coordinates available
     // Loop, while true, continue
@@ -85,7 +103,7 @@ const PlayerFactory = (aiOrHuman) => {
     // - If coordinate has been already hit, try another until not hit
   };
 
-  return { aiPlay, playerPickShipCoordinates, addShip, myShips };
+  return { aiPlay, playerPickShipCoordinates, addShip, myShips, ai };
 };
 
 export default PlayerFactory;

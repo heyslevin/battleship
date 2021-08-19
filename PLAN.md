@@ -110,3 +110,15 @@ Create a ship
      - Position
      - Length
      - Status (sunk/unsunk) \*\*
+
+### Able to do attacks
+
+1. Board has an attack function it passes to Unit
+   - uses parameter board.units[index of Unit]
+   - receiveAttack is inside the specific board
+   - recieveAttack has parameters (coordinates, AllPlayerShips). Updates board and player with data.
+2. Code turns. If your turn, wait for input. If computer turn, run attack function
+3.
+
+Next:
+Allships and ship in coordinate have different "whichship"

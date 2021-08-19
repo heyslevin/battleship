@@ -329,18 +329,17 @@ it("Test Receive attack", () => {
 
 it("Board creates players correctly", () => {
   const board = BoardFactory();
-  let boardPlayers = board.addPlayers();
+  let addHuman = board.addPlayers("human");
   let expected = {
-    playerAi: expect.anything(),
     playerHuman: expect.anything(),
   };
 
-  expect(boardPlayers).toStrictEqual(expected);
+  expect(addHuman).toStrictEqual(expected);
 });
 
 it("Players in Board can create ships", () => {
   const board = BoardFactory();
-  let boardPlayers = board.addPlayers();
+  let boardPlayers = board.addPlayers("human");
   boardPlayers.playerHuman.addShip(3);
 
   expect(boardPlayers.playerHuman.myShips).toStrictEqual(

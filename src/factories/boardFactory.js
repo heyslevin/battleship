@@ -1,9 +1,14 @@
 import PlayerFactory from "./playerFactory";
 
-const BoardFactory = () => {
+const BoardFactory = (type) => {
   //Constructor
 
-  const units = (function (generateUnits) {
+  let ai = false;
+  if (type === "computer") {
+    ai = true;
+  }
+
+  let units = (function (generateUnits) {
     let boardUnits = [];
 
     // Global functions to store data
@@ -12,11 +17,11 @@ const BoardFactory = () => {
 
     // Loop Creates coordinates and unique unit names
     const createCoordinates = function () {
-      for (let x = 0; x < 10; x++) {
+      for (let y = 0; y < 10; y++) {
         let coordinate = [];
         let name = "";
 
-        for (let y = 0; y < 10; y++) {
+        for (let x = 0; x < 10; x++) {
           coordinate = [x, y];
 
           name = "square" + x + y;
@@ -30,10 +35,8 @@ const BoardFactory = () => {
     //Unit properties are created
     const createUnitData = () => {
       for (let i = 0; i < 100; i++) {
-        let unitName = allUnitNames[i];
-
         let unit = {
-          name: unitName,
+          name: i,
           coordinates: allUnitCoordinates[i],
           isHit: false,
           hasShip: false,
@@ -98,7 +101,8 @@ const BoardFactory = () => {
         return true;
       }
     });
-    return matches;
+    let result = matches;
+    return result;
   };
 
   //Checks if space is available (aka does not have a ship). If all hasShip is false, then returns true (true, space is available)
@@ -140,8 +144,9 @@ const BoardFactory = () => {
   ) {
     let updatedUnits = units.map((unit) => {
       // Finds unit in unitArray, and updates it
+
       const foundUnit = filteredUnits.find((filtered) => {
-        return filtered.name == unit.name;
+        return filtered.name === unit.name;
       });
 
       if (foundUnit) {
@@ -164,11 +169,16 @@ const BoardFactory = () => {
 
   //Player functions
 
-  const addPlayers = function createsPlayers() {
-    const playerHuman = PlayerFactory("human");
-    const playerAi = PlayerFactory("computer");
-
-    return { playerHuman, playerAi };
+  const addPlayers = function createsPlayers(typeOfPlayer) {
+    if (typeOfPlayer === "human") {
+      const playerHuman = PlayerFactory("human");
+      return { playerHuman };
+    } else if (typeOfPlayer === "computer") {
+      const playerAi = PlayerFactory("computer");
+      return { playerAi };
+    } else {
+      alert("error creating player, no player type specified");
+    }
   };
 
   const placeShip = function placeShipInUnit(coordinates, ship) {
@@ -176,56 +186,64 @@ const BoardFactory = () => {
 
     // Step 1: Find units with those coordinates
     let selectedUnits;
-
     // Check if coordinates is a single array or group of arrays
-    if (coordinates.length == 2 && coordinates[0][0] == undefined) {
+    if (coordinates.length === 2 && coordinates[0][0] === undefined) {
       selectedUnits = filterUnit(coordinates);
     } else {
       selectedUnits = filterUnits(coordinates);
     }
 
     //Step 2, If no space available, exit function
-    if (!spaceChecker(selectedUnits)) {
-      return false;
-    }
-
+    // if (!spaceChecker(selectedUnits)) {
+    //   return false;
+    // }
     //Step 3, Update units with new info
-    updateShipInfo(units, selectedUnits, hasShip, ship);
+
+    units = updateShipInfo(units, selectedUnits, hasShip, ship);
 
     return units;
   };
 
-  const receiveAttack = function shipGetsHit(coordinate, allShips) {
+  const receiveAttack = function shipGetsHit(coordinates, allShips) {
     // Step 1: Find units with those coordinates.
-    let selectedUnit = filterUnit(coordinate);
+    let selectedUnitArray = filterUnit(coordinates);
+    let selectedUnit = filterUnit(coordinates)[0];
 
     // Step 2: if no ship on space, mark space as "space hit, but no ship"
-    if (spaceChecker(selectedUnit)) {
-      updateShipInfo(units, selectedUnit, isHit);
-    }
+    if (!selectedUnit.hasShip) {
+      updateShipInfo(units, selectedUnitArray, isHit, false);
+    } else if (selectedUnit.hasShip) {
+      alert("hit one");
+      let whichShip = selectedUnit.whichShip;
+      let thisShip = allShips.filter((ship) => {
+        return ship.data.whichShip === whichShip;
+      })[0];
+      console.log(thisShip);
 
-    //Step 3, if there is a ship, hit, and check if sunk
-    updateShipInfo(units, selectedUnit, isHit);
+      updateShipInfo(units, selectedUnitArray, isHit, thisShip);
 
-    //Step 4, find ship in ShipList, deduct hitpoints and check if sunk
-
-    let whichShip = selectedUnit[0].whichShip;
-
-    let thisShip = allShips.filter((ship) => {
-      return ship.data.whichShip == whichShip;
-    })[0];
-
-    // Takes a hit
-    thisShip.data.hit();
-
-    //Next, check is thisShip is sunk
-    if (thisShip.data.sunk) {
-      //ship down
+      return thisShip.data;
     } else {
-      //ship not down
+      alert("error in filtering unit in attack");
     }
 
-    return thisShip.data;
+    // //Step 4, find ship in ShipList, deduct hitpoints and check if sunk
+
+    // let whichShip = selectedUnit[0].whichShip;
+
+    // let thisShip = allShips.filter((ship) => {
+    //   return ship.data.whichShip === whichShip;
+    // })[0];
+
+    // // Takes a hit
+    // thisShip.data.hit();
+
+    // //Next, check is thisShip is sunk
+    // if (thisShip.data.sunk) {
+    //   //ship down
+    // } else {
+    //   //ship not down
+    // }
   };
 
   // Data generator for board
@@ -239,6 +257,7 @@ const BoardFactory = () => {
     updateShipInfo,
     receiveAttack,
     addPlayers,
+    ai,
   };
 };
 

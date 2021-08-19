@@ -1,16 +1,35 @@
-import { Box, Center, Heading, Text } from "@chakra-ui/react";
 import React from "react";
 
-const Scoreboard = ({ currentTurn }) => {
-  let turnColor = "";
-  let turn = "";
+import { Box, Button, Center, Heading, Text } from "@chakra-ui/react";
 
-  if (currentTurn === "player") {
+const Scoreboard = ({ turn, placeShips, players, startGame, setStartGame }) => {
+  let turnColor = "";
+  let turnText = "";
+  let buttonText = "";
+
+  if (!startGame) {
+    buttonText = "Start Game";
+  } else {
+    buttonText = "Place Ships";
+  }
+
+  let handleClick = () => {
+    if (!startGame) {
+      setStartGame(true);
+    } else {
+      placeShips(players["playerHuman"]);
+      placeShips(players["playerAi"]);
+    }
+  };
+
+  if (turn === "playerHuman") {
     turnColor = "green";
-    turn = "your";
-  } else if (currentTurn === "computer") {
+    turnText = "your";
+  } else if (turn === "playerAi") {
     turnColor = "gray";
-    turn = "the computer's";
+    turnText = "the computer's";
+  } else {
+    alert("no turn");
   }
 
   return (
@@ -23,13 +42,13 @@ const Scoreboard = ({ currentTurn }) => {
         border="1px solid"
         borderColor="gray.500"
         borderRadius="3px"
+        align="center"
       >
-        <Heading align="center" size="s">
-          Welcome to the game! Let's play.
-        </Heading>
-        <Text align="center" color={turnColor}>
-          Its {turn} turn.
-        </Text>
+        <Heading size="s">Welcome to the game! Let's play.</Heading>
+        <Text color={turnColor}>Its {turnText} turn.</Text>
+        <Button mt={4} colorScheme="teal" onClick={handleClick}>
+          {buttonText}
+        </Button>
       </Box>
     </Center>
   );
