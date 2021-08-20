@@ -82,7 +82,7 @@ const Board = ({
 
   //Ai Play
 
-  const computerAttacks = function computersTurnToAttack() {
+  if (turn === "playerAi") {
     // let unitHitBefore = false;
     // let unit = "";
     // while (!unitHitBefore) {
@@ -96,7 +96,7 @@ const Board = ({
     setTurn("playerHuman");
     let unit = enemyBoard.filterUnit(players.playerAi.aiPlay())[0];
     setTimeout(launchAttack, 2000, unit.name);
-  };
+  }
 
   return (
     <HStack justifyContent="center">
