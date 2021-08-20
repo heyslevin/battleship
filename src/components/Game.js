@@ -6,7 +6,6 @@ import { Heading } from "@chakra-ui/react";
 import Scoreboard from "./Scoreboard";
 import Board from "./Board";
 
-import BoardFactory from "../factories/boardFactory";
 import gameSetup from "../utilities/gameSetup";
 
 const Game = (props) => {
@@ -76,7 +75,6 @@ const Game = (props) => {
     <React.Fragment>
       <Heading align="center">Welcome to Battleship</Heading>
       <Scoreboard
-        turn={turn}
         players={players}
         placeShips={placeShips}
         startGame={startGame}
@@ -88,6 +86,7 @@ const Game = (props) => {
         humanBoard={humanBoard}
         computerBoard={computerBoard}
         turn={turn}
+        setTurn={setTurn}
         players={players}
         setPlayers={setPlayers}
         setHumanBoard={setHumanBoard}

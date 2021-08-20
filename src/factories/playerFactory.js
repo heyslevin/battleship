@@ -96,6 +96,12 @@ const PlayerFactory = (aiOrHuman) => {
             - If there is a second hit, and a "direction" is defined, computer continues line on one side.
             - If no hit on that side, computer tries other side
 
+            //Check if next move
+            //Pick coordinate: random, searching, or vector
+            //Attack position
+            //Check if position is hit
+            //Plan next move
+
 
         */
     // - Computer selects random spaces

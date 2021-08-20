@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { Box, HStack, Wrap } from "@chakra-ui/react";
 
 import Unit from "./Unit";
-import { useEffect } from "react";
 
 const Board = ({
   startGame,
@@ -12,54 +11,53 @@ const Board = ({
   computerBoard,
   setComputerBoard,
   turn,
+  setTurn,
   players,
   setPlayers,
 }) => {
-  const [unitsWithShip, setUnitsWithShip] = useState(["no units"]);
-  const [filterUnitsWithShip, setFilterUnitsWithShip] = useState("no units");
-
   if (!startGame) {
     return null;
   }
 
-  const handleUnitClick = function unitHasBeenClicked(unitIndex) {
-    let enemyBoard;
-    let currentPlayer;
-    let setBoard;
-    let currentEnemy;
-    let enemyName;
-    let updatedPlayers = players;
+  let currentEnemy; //Enemy Object
+  let enemyBoard; //Enemy Board
+  let setEnemyBoard; //useState to setBoard
+  let enemyName; //String
 
-    if (turn === "playerHuman") {
-      currentEnemy = players.playerAi;
-      enemyName = "playerAi";
-      enemyBoard = computerBoard;
-      setBoard = setComputerBoard;
-    } else if (turn === "playerAi") {
-      currentEnemy = players.playerHuman;
-      enemyName = "playerHuman";
-      enemyBoard = humanBoard;
-      setBoard = setHumanBoard;
-    } else {
-      alert("error, turn is" + turn);
-    }
+  if (turn === "playerHuman") {
+    currentEnemy = players.playerAi;
+    enemyName = "playerAi";
+    enemyBoard = computerBoard;
+    setEnemyBoard = setComputerBoard;
+  } else if (turn === "playerAi") {
+    currentEnemy = players.playerHuman;
+    enemyName = "playerHuman";
+    enemyBoard = humanBoard;
+    setEnemyBoard = setHumanBoard;
+  } else {
+    alert("error, turn is" + turn);
+  }
 
+  const launchAttack = function shipsBeginAttacking(unitIndex) {
     enemyBoard.receiveAttack(
       enemyBoard.units[unitIndex]["coordinates"],
       currentEnemy.myShips
     );
 
-    setBoard((prevState) => ({
+    setEnemyBoard((prevState) => ({
       ...prevState,
       units: enemyBoard.units,
     }));
-    console.log(players);
-    console.log(currentPlayer);
 
     setPlayers((prevState) => ({
       ...prevState,
       [enemyName]: currentEnemy,
     }));
+  };
+
+  const handleUnitClick = function unitHasBeenClicked(unitIndex) {
+    setTurn("playerAi");
+    launchAttack(unitIndex);
   };
 
   const setBoard = (playerBoard) => {
@@ -81,6 +79,24 @@ const Board = ({
 
   let grid = setBoard(humanBoard);
   let blankGrid = setBoard(computerBoard);
+
+  //Ai Play
+
+  const computerAttacks = function computersTurnToAttack() {
+    // let unitHitBefore = false;
+    // let unit = "";
+    // while (!unitHitBefore) {
+    //   unitHitBefore = true;
+    //   let attackCoordinates = players.playerAi.aiPlay();
+    //   unit = enemyBoard.filterUnit(attackCoordinates)[0];
+    //   if (unit.isHit) {
+    //     unitHitBefore = false;
+    //   }
+    // }
+    setTurn("playerHuman");
+    let unit = enemyBoard.filterUnit(players.playerAi.aiPlay())[0];
+    setTimeout(launchAttack, 2000, unit.name);
+  };
 
   return (
     <HStack justifyContent="center">

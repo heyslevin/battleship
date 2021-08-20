@@ -204,7 +204,7 @@ const BoardFactory = (type) => {
     return units;
   };
 
-  const receiveAttack = function shipGetsHit(coordinates, allShips) {
+  const receiveAttack = function spaceGetsHit(coordinates, allShips) {
     // Step 1: Find units with those coordinates.
     let selectedUnitArray = filterUnit(coordinates);
     let selectedUnit = filterUnit(coordinates)[0];
@@ -225,7 +225,6 @@ const BoardFactory = (type) => {
       if (thisShip.data.sunk) {
         alert("Ship going DOWN");
       } else {
-        alert("Still floating");
       }
 
       // Step 5, update ship Data
