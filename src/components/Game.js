@@ -80,6 +80,8 @@ const Game = (props) => {
         startGame={startGame}
         setStartGame={setStartGame}
         turn={turn}
+        humanBoard={humanBoard}
+        computerBoard={computerBoard}
       />
       <Board
         startGame={startGame}

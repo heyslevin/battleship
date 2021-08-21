@@ -3,13 +3,22 @@ import React from "react";
 import { Box, Button, Center, Heading, Text } from "@chakra-ui/react";
 import { useState } from "react";
 
-const Scoreboard = ({ turn, placeShips, players, startGame, setStartGame }) => {
+const Scoreboard = ({
+  turn,
+  placeShips,
+  players,
+  startGame,
+  setStartGame,
+  humanBoard,
+  computerBoard,
+}) => {
   const [hidePlaceShipButton, setHidePlaceShipButton] = useState(false);
 
   let turnColor = "";
   let turnText = "";
   let buttonText = "";
   let button;
+  let announcementText = "";
 
   if (!startGame) {
     buttonText = "Start Game";
@@ -47,6 +56,14 @@ const Scoreboard = ({ turn, placeShips, players, startGame, setStartGame }) => {
     button = <span></span>;
   }
 
+  if (humanBoard.gameOver) {
+    announcementText = <Text color={turnColor}>Computer Wins!</Text>;
+  } else if (computerBoard.gameOver) {
+    announcementText = <Text color={turnColor}>You win!</Text>;
+  } else {
+    announcementText = <Text color={turnColor}>Its {turnText} turn.</Text>;
+  }
+
   return (
     <Center>
       <Box
@@ -60,7 +77,7 @@ const Scoreboard = ({ turn, placeShips, players, startGame, setStartGame }) => {
         align="center"
       >
         <Heading size="s">Welcome to the game! Let's play.</Heading>
-        <Text color={turnColor}>Its {turnText} turn.</Text>
+        {announcementText}
         {button}
       </Box>
     </Center>

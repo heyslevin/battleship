@@ -33,7 +33,7 @@ const Board = ({
       const timeOut = setTimeout(() => {
         launchAttack(unit.name);
         setTurn("playerHuman");
-      }, 1200);
+      }, 10);
 
       return () => clearTimeout(timeOut);
     }
@@ -68,9 +68,12 @@ const Board = ({
       currentEnemy.myShips
     );
 
+    let gameOver = enemyBoard.gameOverCheck(currentEnemy.myShips);
+
     setEnemyBoard((prevState) => ({
       ...prevState,
       units: enemyBoard.units,
+      gameOver: gameOver,
     }));
 
     setPlayers((prevState) => ({

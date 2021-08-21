@@ -4,6 +4,8 @@ const BoardFactory = (type) => {
   //Constructor
 
   let ai = false;
+  let gameOver = false;
+
   if (type === "computer") {
     ai = true;
   }
@@ -110,6 +112,10 @@ const BoardFactory = (type) => {
     return units.every((unit) => {
       return !unit.hasShip;
     });
+  };
+
+  const setGameOver = function () {
+    gameOver = true;
   };
 
   // Plug in functions
@@ -222,9 +228,10 @@ const BoardFactory = (type) => {
       // Step 4,deduct hitpoints and check if sunk
       thisShip.data.hit();
 
-      if (thisShip.data.sunk) {
+      if (thisShip.data.sunk && gameOverCheck(allShips)) {
+        alert("Game over");
+      } else if (thisShip.data.sunk) {
         alert("Ship going DOWN");
-      } else {
       }
 
       // Step 5, update ship Data
@@ -247,6 +254,12 @@ const BoardFactory = (type) => {
     // }
   };
 
+  const gameOverCheck = function checkIfAllShipsAreSunk(allShips) {
+    return allShips.every((ship) => {
+      return ship.data.sunk;
+    });
+  };
+
   // Data generator for board
 
   return {
@@ -259,6 +272,8 @@ const BoardFactory = (type) => {
     receiveAttack,
     addPlayers,
     ai,
+    gameOverCheck,
+    gameOver,
   };
 };
 
