@@ -33,7 +33,7 @@ const Board = ({
       const timeOut = setTimeout(() => {
         launchAttack(unit.name);
         setTurn("playerHuman");
-      }, 10);
+      }, 1200);
 
       return () => clearTimeout(timeOut);
     }
@@ -47,17 +47,20 @@ const Board = ({
   let enemyBoard; //Enemy Board
   let setEnemyBoard; //useState to setBoard
   let enemyName; //String
+  let disabled;
 
   if (turn === "playerHuman") {
     currentEnemy = players.playerAi;
     enemyName = "playerAi";
     enemyBoard = computerBoard;
     setEnemyBoard = setComputerBoard;
+    disabled = false;
   } else if (turn === "playerAi") {
     currentEnemy = players.playerHuman;
     enemyName = "playerHuman";
     enemyBoard = humanBoard;
     setEnemyBoard = setHumanBoard;
+    disabled = true;
   } else {
     alert("error, turn is" + turn);
   }
@@ -97,7 +100,8 @@ const Board = ({
           index={index}
           hasShip={unit.hasShip}
           ai={playerBoard.ai}
-          handleUnitClick={handleUnitClick}
+          disabled={disabled}
+          handleUnitClick={disabled ? null : handleUnitClick}
           isHit={unit.isHit}
         />
       );
