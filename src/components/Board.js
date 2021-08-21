@@ -3,6 +3,7 @@ import React from "react";
 import { Box, HStack, Wrap } from "@chakra-ui/react";
 
 import Unit from "./Unit";
+import { useEffect } from "react";
 
 const Board = ({
   startGame,
@@ -15,6 +16,29 @@ const Board = ({
   players,
   setPlayers,
 }) => {
+  useEffect(() => {
+    if (turn === "playerAi") {
+      let unitHitBefore = false;
+      let unit = "";
+      while (!unitHitBefore) {
+        unitHitBefore = true;
+        let attackCoordinates = players.playerAi.aiPlay();
+        unit = enemyBoard.filterUnit(attackCoordinates)[0];
+        if (unit.isHit) {
+          unitHitBefore = false;
+        }
+      }
+
+      //Timer to simulate computer thinking
+      const timeOut = setTimeout(() => {
+        launchAttack(unit.name);
+        setTurn("playerHuman");
+      }, 1200);
+
+      return () => clearTimeout(timeOut);
+    }
+  }, [turn]);
+
   if (!startGame) {
     return null;
   }
@@ -82,21 +106,21 @@ const Board = ({
 
   //Ai Play
 
-  if (turn === "playerAi") {
-    // let unitHitBefore = false;
-    // let unit = "";
-    // while (!unitHitBefore) {
-    //   unitHitBefore = true;
-    //   let attackCoordinates = players.playerAi.aiPlay();
-    //   unit = enemyBoard.filterUnit(attackCoordinates)[0];
-    //   if (unit.isHit) {
-    //     unitHitBefore = false;
-    //   }
-    // }
-    setTurn("playerHuman");
-    let unit = enemyBoard.filterUnit(players.playerAi.aiPlay())[0];
-    setTimeout(launchAttack, 2000, unit.name);
-  }
+  // if (turn === "playerAi") {
+  //   // let unitHitBefore = false;
+  //   // let unit = "";
+  //   // while (!unitHitBefore) {
+  //   //   unitHitBefore = true;
+  //   //   let attackCoordinates = players.playerAi.aiPlay();
+  //   //   unit = enemyBoard.filterUnit(attackCoordinates)[0];
+  //   //   if (unit.isHit) {
+  //   //     unitHitBefore = false;
+  //   //   }
+  //   // }
+  //   setTurn("playerHuman");
+  //   let unit = enemyBoard.filterUnit(players.playerAi.aiPlay())[0];
+  //   setTimeout(launchAttack, 2000, unit.name);
+  // }
 
   return (
     <HStack justifyContent="center">
