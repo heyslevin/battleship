@@ -11,4 +11,8 @@ This is an exercise for the javascript course on The Odin Project. It's practice
 
 ## Tools
 
+- Chakra UI
+
 ## Where can I play it?
+
+https://heyslevin.github.io/battleship/
