@@ -9,11 +9,12 @@ import Board from "./Board";
 import gameSetup from "../utilities/gameSetup";
 
 const Game = (props) => {
-  const [turn, setTurn] = useState("playerHuman");
+  const [turn, setTurn] = useState(null);
   const [humanBoard, setHumanBoard] = useState("noHumanBoard");
   const [computerBoard, setComputerBoard] = useState("noComputerBoard");
   const [players, setPlayers] = useState("noPlayers");
   const [startGame, setStartGame] = useState(false);
+  const [alertShipSunk, setAlertShipSunk] = useState(false);
   const [shipCoordinates, setShipCoordinates] = useState([]);
 
   // Initializes Game after first render
@@ -26,10 +27,20 @@ const Game = (props) => {
     setComputerBoard(computerBoard);
   }, [startGame]);
 
+  const restartGame = () => {
+    setPlayers("no players");
+    setComputerBoard("noComputerBoard");
+    setHumanBoard("noHumanBoard");
+    setStartGame(false);
+    setTurn(null);
+  };
+
   const placeShips = function placePlayerShipsOnBoard(player) {
     const ships = player.myShips;
     let board = humanBoard;
     let playerAi = player.ai;
+
+    setTurn("playerHuman");
 
     if (player.ai) {
       board = computerBoard;
@@ -82,6 +93,9 @@ const Game = (props) => {
         turn={turn}
         humanBoard={humanBoard}
         computerBoard={computerBoard}
+        alertShipSunk={alertShipSunk}
+        setAlertShipSunk={setAlertShipSunk}
+        restartGame={restartGame}
       />
       <Board
         startGame={startGame}
@@ -93,6 +107,7 @@ const Game = (props) => {
         setPlayers={setPlayers}
         setHumanBoard={setHumanBoard}
         setComputerBoard={setComputerBoard}
+        setAlertShipSunk={setAlertShipSunk}
       />
     </React.Fragment>
   );
