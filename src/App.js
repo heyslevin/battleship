@@ -1,24 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import Game from "./components/Game";
+
+import { useEffect } from "react";
+import { ChakraProvider, Container } from "@chakra-ui/react";
 
 function App() {
+  // Sets the title
+  useEffect(() => {
+    document.title = "🛳 Battleship";
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ChakraProvider>
+      <Container maxW="100%" height="100vh" py="5" bg="gray.100">
+        <Game />
+      </Container>
+    </ChakraProvider>
   );
 }
 
