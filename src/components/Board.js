@@ -15,6 +15,7 @@ const Board = ({
   setTurn,
   players,
   setPlayers,
+  setAlertShipSunk,
 }) => {
   useEffect(() => {
     if (turn === "playerAi") {
@@ -33,7 +34,7 @@ const Board = ({
       const timeOut = setTimeout(() => {
         launchAttack(unit.name);
         setTurn("playerHuman");
-      }, 1200);
+      }, 10);
 
       return () => clearTimeout(timeOut);
     }
@@ -47,7 +48,7 @@ const Board = ({
   let enemyBoard; //Enemy Board
   let setEnemyBoard; //useState to setBoard
   let enemyName; //String
-  let disabled;
+  let disabled = true;
 
   if (turn === "playerHuman") {
     currentEnemy = players.playerAi;
@@ -61,17 +62,22 @@ const Board = ({
     enemyBoard = humanBoard;
     setEnemyBoard = setHumanBoard;
     disabled = true;
-  } else {
-    alert("error, turn is" + turn);
   }
 
   const launchAttack = function shipsBeginAttacking(unitIndex) {
-    enemyBoard.receiveAttack(
+    let attackedShip = enemyBoard.receiveAttack(
       enemyBoard.units[unitIndex]["coordinates"],
       currentEnemy.myShips
     );
 
+    if (attackedShip.sunk) {
+      setAlertShipSunk(true);
+    }
+
     let gameOver = enemyBoard.gameOverCheck(currentEnemy.myShips);
+    if (gameOver) {
+      setTurn(null);
+    }
 
     setEnemyBoard((prevState) => ({
       ...prevState,

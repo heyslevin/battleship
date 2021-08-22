@@ -2,14 +2,15 @@ import { Center, WrapItem } from "@chakra-ui/react";
 import React from "react";
 
 const Unit = ({ hasShip, ai, handleUnitClick, index, isHit, disabled }) => {
-  let shipColor = ai ? "red" : "blue";
+  let shipColor = ai ? "white" : "blue";
   let bgColor = hasShip ? shipColor : "white";
 
   //When hit
   if (hasShip && isHit) {
-    bgColor = "blue.500";
+    bgColor = "red";
   } else if (!hasShip && isHit) {
     bgColor = "teal.100";
+    disabled = true;
   }
 
   let handleClick = () => {

@@ -2,6 +2,7 @@ import React from "react";
 
 import { Box, Button, Center, Heading, Text } from "@chakra-ui/react";
 import { useState } from "react";
+import { useEffect } from "react";
 
 const Scoreboard = ({
   turn,
@@ -11,6 +12,9 @@ const Scoreboard = ({
   setStartGame,
   humanBoard,
   computerBoard,
+  alertShipSunk,
+  setAlertShipSunk,
+  restartGame,
 }) => {
   const [hidePlaceShipButton, setHidePlaceShipButton] = useState(false);
 
@@ -19,16 +23,33 @@ const Scoreboard = ({
   let buttonText = "";
   let button;
   let announcementText = "";
+  let gameOver = humanBoard.gameOver || computerBoard.gameOver ? true : false;
+
+  useEffect(() => {
+    const timer = setTimeout(() => setAlertShipSunk(false), 3000);
+
+    return () => clearTimeout(timer);
+  }, [alertShipSunk]);
+
+  useEffect(() => {
+    if (gameOver) {
+      setHidePlaceShipButton(false);
+    }
+  }, [gameOver]);
 
   if (!startGame) {
     buttonText = "Start Game";
-  } else {
+  } else if (startGame && !gameOver) {
     buttonText = "Place Ships";
+  } else if (startGame && gameOver) {
+    buttonText = "Play Again";
   }
 
   let handleClick = () => {
     if (!startGame) {
       setStartGame(true);
+    } else if (gameOver) {
+      restartGame();
     } else {
       placeShips(players["playerHuman"]);
       placeShips(players["playerAi"]);
@@ -42,8 +63,6 @@ const Scoreboard = ({
   } else if (turn === "playerAi") {
     turnColor = "gray";
     turnText = "the computer's";
-  } else {
-    alert("no turn");
   }
 
   if (!hidePlaceShipButton) {
@@ -56,10 +75,16 @@ const Scoreboard = ({
     button = <span></span>;
   }
 
-  if (humanBoard.gameOver) {
+  if (alertShipSunk) {
+    announcementText = <Text color="red">SHIP SUNK!</Text>;
+  } else if (humanBoard.gameOver) {
     announcementText = <Text color={turnColor}>Computer Wins!</Text>;
   } else if (computerBoard.gameOver) {
     announcementText = <Text color={turnColor}>You win!</Text>;
+  } else if (turn === null) {
+    announcementText = (
+      <Text color="gray.600">Place your ships to get started.</Text>
+    );
   } else {
     announcementText = <Text color={turnColor}>Its {turnText} turn.</Text>;
   }

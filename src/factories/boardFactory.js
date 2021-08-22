@@ -5,6 +5,7 @@ const BoardFactory = (type) => {
 
   let ai = false;
   let gameOver = false;
+  let sunkInTurn = false;
 
   if (type === "computer") {
     ai = true;
@@ -218,6 +219,7 @@ const BoardFactory = (type) => {
     // Step 2: if no ship on space, mark space as "space hit, but no ship"
     if (!selectedUnit.hasShip) {
       updateShipInfo(units, selectedUnitArray, isHit, false);
+      return false;
     } else if (selectedUnit.hasShip) {
       // Step 3, find ship in ShipList
       let whichShip = selectedUnit.whichShip;
@@ -227,12 +229,6 @@ const BoardFactory = (type) => {
 
       // Step 4,deduct hitpoints and check if sunk
       thisShip.data.hit();
-
-      if (thisShip.data.sunk && gameOverCheck(allShips)) {
-        alert("Game over");
-      } else if (thisShip.data.sunk) {
-        alert("Ship going DOWN");
-      }
 
       // Step 5, update ship Data
 

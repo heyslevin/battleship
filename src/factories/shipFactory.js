@@ -18,6 +18,8 @@ const ShipFactory = (length) => {
   const checkIfSunk = function shipHasNoMoreHitPoints() {
     if (data.hitPoints === 0) {
       return true;
+    } else {
+      return false;
     }
   };
 
